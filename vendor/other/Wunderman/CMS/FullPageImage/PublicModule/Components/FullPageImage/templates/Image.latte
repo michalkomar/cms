@@ -1,0 +1,12 @@
+{*
+ * @var $article
+ *}
+{block content}
+<div id="image-{$image->md5}" class="container full-page-image">
+	<div class="row">
+		<div class="col-lg-12 no-padding">
+			<a n:ifset="$params['anchor']" class="anchor" name="{$params['anchor']}"></a>
+			<img src="{$basePath}/attachments/{$image->md5}" />
+		</div>
+	</div>
+</div>

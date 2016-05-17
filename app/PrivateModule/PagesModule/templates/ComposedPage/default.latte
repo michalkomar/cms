@@ -1,0 +1,150 @@
+{layout '../pageLayout.latte'}
+{block pageTitle}Composed page{/block}
+{block pageContent}
+<link rel="stylesheet" media="screen,projection,tv" href="{$basePath}/PrivateModule/css/administrable.css">
+<div class="row" id="adminComposedPage">
+	<div class="col-lg-12">
+		{foreach $_form['addButtons']->getComponents() as $component}
+			<button
+					class="btn btn-success btn-sm"
+					n:name="addButtons-$component->name"
+					{ifset $component->control->attrs['title']}
+						data-toggle="tooltip"
+						data-placement="top"
+						title="{$component->control->attrs['title']}"
+					{/ifset}>
+					<i class="glyphicon glyphicon-plus-sign"></i>
+					{$component->caption}
+			</button>
+		{/foreach}
+		<hr>
+
+		{if isset($addItemTemplate)}
+		<div class="row">
+			<div class="col-lg-12 bg-info">
+				<div class="row">
+					<div class="col-lg-12 bg-primary">
+						<p><br><i class="glyphicon glyphicon-info-sign"></i> <strong>Adding new item</strong>: This item will be passed as last of items after save.</p>
+					</div>
+				</div>
+				{include $addItemTemplate _form => $_form, $itemContainer => $itemContainer}
+
+				<div class="row">
+					<div class="col-lg-12">
+						{input save class=>'btn btn-success pull-right'}
+					</div>
+				</div>
+				<br>
+			</div>
+		</div>
+			<br>
+		{/if}
+
+		<div class="clearfix"></div>
+		<div n:ifset="$article" @n:snippet="items">
+			<div n:foreach="$article->getItems() as $item" style="margin-bottom: 15px; padding-bottom: 15px;" n:class="'row', (isset($editItemTemplate) && isset($editedItem) && $editedItem->id == $item->id) ? 'bg-info'">
+				{if isset($editItemTemplate) && isset($editedItem) && $editedItem->id == $item->id}
+					<br>
+					<div class="col-lg-11">
+						{include $editItemTemplate _form=>$_form, editedItem=>$editedItem, $itemContainer => $itemContainer}
+					</div>
+					<div class="col-lg-1">
+						<a name="editItem{$item->getId()}"></a>
+
+						<a n:if="!$iterator->isFirst()" href="#" disabled class="btn btn-default ajax pull-right" data-toggle="tooltip" data-placement="left" title="Move up"><i class="fa fa-chevron-up"></i></a>
+
+						<a n:if="!$iterator->isLast()" href="#" disabled class="btn btn-default ajax pull-right" data-toggle="tooltip" data-placement="left" title="Move down"><i class="fa fa-chevron-down"></i></a>
+
+						<a n:href="this" class="btn btn-warning ajax pull-right" data-toggle="tooltip" data-placement="left" title="Cancel"><i class="glyphicon glyphicon-floppy-remove"></i></a>
+
+						<button n:name="save" type="submit" class="btn btn-success pull-right" data-toggle="tooltip" data-placement="left" title="Save"><i class="glyphicon glyphicon-floppy-saved"></i></button>
+
+						<br>
+						<br>
+						<span class="pull-right" data-toggle="tooltip" data-placement="left" title="Delete">
+							<button data-toggle="modal" data-target="#removeItemModal" data-remove-link="{link removeItem! item=>$item->id}" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i></button>
+						</span>
+					</div>
+				{else}
+					<div class="col-lg-11">
+						{capture $id}{$item->getId()}{/capture}
+						<a href="#" onclick="copyToClipboard('/{$menuItem->url|noescape}#{$getParagraph($item)|noescape}');" class="fa fa-paragraph"></a> <code>/{$menuItem->url}#{$getParagraph($item)}</code>
+						{control componentWrapper-$id, $item}
+					</div>
+					<div class="col-lg-1">
+						<a n:if="!$iterator->isFirst()" n:href="moveItemUp! item=>$item->getId()" class="btn btn-success ajax pull-right" data-toggle="tooltip" data-placement="left" title="Move up"><i class="fa fa-chevron-up"></i></a>
+
+						<a n:if="!$iterator->isLast()" n:href="moveItemDown! item=>$item->getId()" class="btn btn-success ajax pull-right" data-toggle="tooltip" data-placement="left" title="Move down"><i class="fa fa-chevron-down"></i></a>
+
+						{capture $editItemLink}{link editItem! item=>$item->getId()}#editItem{$item->getId()}{/capture}
+						<a href="{$editItemLink|noescape}" class="btn btn-warning  pull-right" data-toggle="tooltip" data-placement="left" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>
+
+						<br>
+						<br>
+						<span class="pull-right" data-toggle="tooltip" data-placement="left" title="Delete">
+							<a data-toggle="modal" data-target="#removeItemModal" data-remove-link="{link removeItem! item=>$item->id}" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
+						</span>
+					</div>
+				{/if}
+			</div>
+		</div>
+
+	</div>
+</div>
+{* delete modal confirmation *}
+	<div class="modal fade" id="removeItemModal" tabindex="-1" role="dialog" aria-labelledby="removeModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="exampleModalLabel">Delete composed page part</h4>
+				</div>
+				<div class="modal-body">
+					Are you sure?
+				</div>
+				<div class="modal-footer">
+					<a class="btn btn-default" data-dismiss="modal">Cancel</a>
+					<a href="#" class="btn btn-danger confirm">Delete</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$('#removeItemModal').on('show.bs.modal', function (event) {
+			var button = $(event.relatedTarget);
+			var deletedItemId = button.data('remove-link');
+			var modal = $(this);
+			modal.find('a.confirm').attr('href', deletedItemId);
+		});
+	</script>
+{**}
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jquery.mixitup/latest/jquery.mixitup.min.js?v=2.1.9"></script>
+{/block}
+
+{block pageRight}
+<div class="x_panel">
+	<div class="x_title">
+		<h2>Article settings</h2>
+		<div class="clearfix"></div>
+	</div>
+	<div class="x_content">
+		<div class="row">
+			<div class="col-lg-6">
+				<label>Keywords</label>
+			</div>
+			<div class="col-lg-6">
+				<input n:name="keywords" name="keywords" type="text" class="form-control">
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-lg-6">
+				<label>Description</label>
+			</div>
+			<div class="col-lg-6">
+				<input n:name="description" name="description" type="text" class="form-control">
+			</div>
+		</div>
+	</div>
+</div>
+{/block}

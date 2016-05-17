@@ -1,0 +1,17 @@
+{var $robots = noindex}
+
+{block #content}
+
+
+<div class="container col-sm-12 col-lg-3" id="signInContainer">
+	{form lostPasswordForm, class=>'form-signin', role=>'form'}
+		<h4>Zapomenuté heslo</h4>
+		<p>
+			Zadejte své přihlašovací jméno
+		</p>
+	{input username, class=>'form-control name', placeholder=>'Jméno:'}
+	{input send, class=>'btn btn-lg btn-primary btn-block form-control send'}
+		<br>
+		<a n:href=":Private:Users:Sign:in">Přihlásit</a>
+	{/form}
+</div>

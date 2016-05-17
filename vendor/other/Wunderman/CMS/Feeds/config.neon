@@ -1,0 +1,24 @@
+parameters:
+	PrivateModule:
+		AddButtons:
+			## This name must be same as name of injected service in Wunderman\CMS\Feeds for composedPagePresenter (@privateModuleService in this config)
+			feeds:
+				text: 'Add feeds'
+				tooltip: ''
+		PagePartsButtons:
+			':Private:Feeds:List:':
+				text: Feeds
+	renderableComponents:
+		feeds:
+
+
+services:
+	privateModuleService:
+	 	class: Wunderman\CMS\Feeds\PrivateModule\Service
+
+	feedsService: App\PublicModule\FeedsModule\Model\Service\Feeds
+	- App\PrivateModule\FeedsModule\Model\Service\Feeds
+
+	feedsCronPresenter: App\PublicModule\FeedsCronModule\Presenter\FeedsCronPresenter
+
+	guzzleClient: GuzzleHttp\Client

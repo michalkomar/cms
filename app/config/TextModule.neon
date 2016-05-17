@@ -1,0 +1,11 @@
+parameters:
+	modules:
+		PublicModule:
+			TextModule:
+				list: "Seznam článků"
+				detail: "Detail článku"
+		PrivateModule:
+			TextModule:
+				edit: "Upravit článek"
+				create: "Vytvořit článek"
+				delete: "Smazat článek"

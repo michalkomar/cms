@@ -1,0 +1,18 @@
+parameters:
+	PrivateModule:
+		AddButtons:
+			## This name must be same as name of injected service in Wunderman\CMS\FlatPhotoGallery for composedPagePresenter (@privateModuleService in this config)
+			flatPhotoGallery:
+				text: 'Add flat PhotoGallery'
+				tooltip: ''
+		PagePartsButtons:
+			':Private:FlatPhotoGallery:List:':
+				text: Flat PhotoGallery
+	renderableComponents:
+		flatPhotoGallery:
+
+
+services:
+	privateModuleService:
+	 	class: Wunderman\CMS\FlatPhotoGallery\PrivateModule\Service
+	- App\PrivateModule\FlatPhotoGalleryModule\Model\Service\FlatPhotoGallery

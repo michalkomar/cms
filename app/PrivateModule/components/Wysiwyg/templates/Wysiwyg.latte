@@ -1,0 +1,76 @@
+{*
+ * Kendo editor
+ *}
+{block content}
+<script type="text/javascript">
+	{capture $imageNameKey}{? echo "{0}" }{/capture}
+	$(document).ready(function() {
+		// create Editor from textarea HTML element with default set of tools
+		$('textarea[name="content"], textarea.wysiwyg').kendoEditor({
+			resizable: {
+				content: true,
+				toolbar: true
+			},
+			encoded: false,
+			tools: [
+				"bold",
+				"italic",
+				"underline",
+				"strikethrough",
+				"justifyLeft",
+				"justifyCenter",
+				"justifyRight",
+				"justifyFull",
+				"insertUnorderedList",
+				"insertOrderedList",
+				"indent",
+				"outdent",
+				"createLink",
+				"unlink",
+				"insertImage",
+				"insertFile",
+				"subscript",
+				"superscript",
+				"createTable",
+				"addRowAbove",
+				"addRowBelow",
+				"addColumnLeft",
+				"addColumnRight",
+				"deleteRow",
+				"deleteColumn",
+				"viewHtml",
+				"formatting",
+				"cleanFormatting",
+				"fontName",
+				"fontSize",
+				"foreColor",
+				"backColor",
+				"print"
+			],
+			imageBrowser: {
+				messages: {
+					dropFilesHere: "Drop files here"
+				},
+				transport: {
+					read: {link readImages!},
+					destroy: {
+						url: {link destroyImage!},
+						type: "POST"
+					},
+					thumbnailUrl: function(path, file) {
+						return '/attachments/'+ file;
+					},
+					uploadUrl: {link uploadImage!},
+					imageUrl: function (e) {
+						return '/attachments/' + e;
+					}
+				},
+			},
+		});
+
+		$('input[name="name"]').on('keyup', function(){
+			var webalizedName = make_url($(this).val());
+			$('input[name="url"]').val(webalizedName);
+		});
+	});
+</script>

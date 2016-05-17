@@ -1,0 +1,6 @@
+RewriteEngine On
+
+RewriteCond %{REQUEST_URI} !^/cc\.php$
+RewriteCond %{REQUEST_FILENAME} !\.(@|js|ico|txt|gif|jpg|png|css|ico|pdf|zip|rar|doc|docx|xlsx|xls|htm|html|woff2|woff|ttf|eot)$
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule .* index.php [L]

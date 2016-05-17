@@ -1,0 +1,165 @@
+<script type='text/javascript'>
+	$(function(){
+		var userOrganization = {$user->getIdentity()->organization};
+		var isAdmin = {$user->isInRole('admin')};
+
+		messagesGrid = new kendoCRM({
+			node: '#users',
+			component: 'grid',
+			{if ($user->isInRole('admin') || $user->isInRole('o2-admin') || $user->isInRole('brewery-admin') )}createUrl: {link createUser!},{/if}
+			readUrl: {link readUser!},
+			updateUrl: {link updateUser!},
+			destroyUrl: {link destroyUser!},
+			editMode: 'custom-popup',
+			customPopupModalNode: '#userEditModal',
+			columns:
+					[
+						{
+							field: 'identityNo',
+							title: 'ID'
+						},
+						{
+							field: 'name',
+							title: 'Jméno'
+						},
+						{
+							field: 'surname',
+							title: 'Příjmení'
+						},
+						{
+							field: 'username',
+							title: 'Login'
+						},
+						{
+							field: 'email',
+							title: 'E-mail'
+						},
+						{
+							field: 'role',
+							title: 'Role'
+						},
+						{
+							command: {
+								name: 'sendPassword',
+								click: function(e){
+									e.preventDefault();
+									messagesGrid.sendPassword(e);
+								},
+								template: '<a class="btn btn-primary small k-grid-sendPassword" data-toggle="tooltip" data-placement="left" title="Poslat nové heslo"><span class="glyphicon glyphicon-lock"></span></a>'
+							},
+							title: 'Poslat<br/>heslo',
+							width: 60
+						}
+					],
+			dataSourceSchema: {
+				model: {
+					id: 'id',
+					fields: {
+						id: { editable: false },
+						name: { type: 'string'},
+						surname: { type: 'string'},
+						username: { type: 'string'},
+						email: { type: 'string'},
+						role: { type: 'string'},
+					}
+				}
+			},
+			onDialogOpen: function(e, context) {
+				context.viewModel.recalculateCurrentDistricts();
+			},
+			viewModelExtension: {
+				validate: function(model)
+				{
+					var passwordRegexp = /{$passwordRegexp|noescape}/g;
+					var errors = [];
+
+					! (typeof model.password !== 'undefined' && model.password.match(passwordRegexp) === null) ? null:
+							errors.push('Heslo je příliš slabé');
+
+					! (typeof model.password !== 'undefined' && model.password !== model.passwordRe) ? null:
+							errors.push('Hesla se neshodují');
+
+					! model.role == "" ? null:
+							errors.push('Vyberte uživatelskou roli');
+
+					if(model.isNew())
+					{
+						! model.surname == "" ? null:
+								errors.push('Vyplňte příjmení');
+						! model.name == "" ? null:
+								errors.push('Vyplňte jméno');
+						! model.email == "" ? null:
+								errors.push('Vyplňte email');
+						! model.username == "" ? null:
+								errors.push('Vyplňte uživatelské jméno');
+						! model.password == "" ? null:
+								errors.push('Vyplňte heslo');
+						! model.identityNo == "" ? null:
+								errors.push('Vyplňte ID uživatele');
+					}
+
+					$('.userSaveError').remove();
+
+					$(errors).each(function(){
+						bootstrap.flashMessage(this, 'danger userSaveError');
+					});
+
+					return errors.length ? false : true;
+				},
+				saveUser: function(e){
+					if (this.validate(this.selected))
+					{
+						this.save();
+					}
+				},
+				saveAndCloseUser: function(e){
+					if (this.validate(this.selected))
+					{
+						this.saveAndClose();
+					}
+				},
+				showPassword: function(e)
+				{
+					if ($(e.target).hasClass('glyphicon-eye-open'))
+					{
+						$(e.target).removeClass('glyphicon-eye-open');
+						$(e.target).addClass('glyphicon-eye-close');
+						$('input[data-model-property="passwordRe"]').attr('type', 'text');
+						$('input[data-model-property="password"]').attr('type', 'text');
+					}
+					else
+					{
+						$(e.target).removeClass('glyphicon-eye-close');
+						$(e.target).addClass('glyphicon-eye-open');
+						$('input[data-model-property="password"]').attr('type', 'password');
+						$('input[data-model-property="passwordRe"]').attr('type', 'password');
+					}
+				},
+				sendPassword: function(e)
+				{
+					var uid = $(e.target.closest('tr')).data('uid');
+					var model = this.dataSource.getByUid(uid);
+
+					$.post({link resetPassword!}, { id: model.id}, function(data, status, xhr){
+						if (xhr.status === 200)
+						{
+							bootstrap.flashMessage('Nové heslo bylo odesláno.', 'success');
+						}
+					}).fail(function() {
+						bootstrap.flashMessage('Heslo se nepodařilo odeslat, zkuste to později.', 'danger');
+					});
+				},
+				roles: new kendo.data.DataSource({
+					transport: {
+						read: {
+							dataType: 'json',
+							url: {link readRoles!}
+						}
+					}
+				})
+			},
+			defaultSorting:
+			{ field: "id", dir: "asc"}
+		});
+	});
+</script>

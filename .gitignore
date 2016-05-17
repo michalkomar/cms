@@ -1,0 +1,14 @@
+app/config/config.local.neon
+vendor/*
+!vendor/other
+.idea
+nbproject/*
+tmp/*
+log/*
+www/attachments
+www/stories
+www/webtemp
+
+.DS_Store
+
+tests/_output/*

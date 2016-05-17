@@ -1,0 +1,67 @@
+<div class="row">
+	<div class="col-lg-6">
+		<div class="row">
+			<div class="col-lg-12">
+				<h3>Anchor</h3>
+				<div class="clearfix"></div>
+				<div class="input-group">
+					{input item-anchor placeholder=>'', class=>'form-control'}
+					<div class="input-group-addon" data-toggle="tooltip" data-placement="top" title="The anchor is used to navigate to different parts of the page. Anchor must be a space less. E.g. anchor-on-my-page"><span class="glyphicon glyphicon-info-sign"></span></div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<h3>Link name</h3>
+				<div class="clearfix"></div>
+				{input item-link_text placeholder=>'', class=>'form-control'}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<h3>Link</h3>
+				<div class="clearfix"></div>
+				{input item-link placeholder=>'', class=>'form-control'}
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-6">
+		<div class="row">
+			<div class="col-lg-12">
+				<h3>Background color</h3>
+				<div class="clearfix"></div>
+				{input item-bg_color placeholder=>'', class=>'form-control'}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<h3>Margin</h3>
+				<div class="clearfix"></div>
+				<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Margin is space between two of page parts. You can disable margin for this part."></span>
+				Top: <input n:name="item-margin_top" type="checkbox" class="js-switch" data-switchery="true">
+				Bottom: <input n:name="item-margin_bottom" type="checkbox" class="js-switch" data-switchery="true">
+				{input item-type}
+				{input item-itemId}
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-lg-12">
+		<h3>Content</h3>
+		<div class="clearfix"></div>
+		{input item-content placeholder=>'Content', class=>'form-control wysiwyg'}
+	</div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		var editor = $('textarea[name="item[content]"]').data("kendoEditor");
+		editor.body.style.backgroundColor = "#{$_form['item']['bg_color']->value|noescape}";
+		$('input[name="item[bg_color]"]').kendoColorPicker({
+			buttons: true,
+			change: function(e){
+				editor.body.style.backgroundColor = e.value;
+			}
+		});
+	});
+</script>

@@ -1,0 +1,51 @@
+{*
+ * Bootstrap nav
+ *}
+{block content}
+{var $depth = -1}
+
+<ul class="nav navbar-nav">
+{foreach $items as $item}
+	{var $current = null}
+	{if $iterator->counter > 1}
+		{if $depth < $item->depth}
+			<ul class="dropdown-menu" role="menu">
+		{else}
+			{!"</li>\n</ul>\n"|repeat:($depth - $item->depth)}</li>
+		{/if}
+	{/if}
+	{var $linkParams = \Nette\Utils\Json::Decode($item->params, \Nette\Utils\Json::FORCE_ARRAY)}
+	{if is_array($linkParams) && $item->presenter !== 'ExternalUrl'}
+		{ifCurrent ':'.$item->presenter.':'.$item->action (expand)$linkParams}{var $current='active'}{/ifCurrent}
+	{/if}
+
+	{** Compute final url for item **}
+	{if $item->presenter !== 'ExternalUrl'}
+		{capture $url}{$basePath}/{$item->url}{/capture}
+	{else}
+		{capture $url}{$item->url}{/capture}
+	{/if}
+
+	<li
+		n:class="isset($item->params->class) ? $item->params->class,
+				($item->depth > 0) ? 'depth-'.$item->depth,
+				($item->rgt > $item->lft +1) ? 'dropdown',
+				$current ? $current
+		">
+		{if $item->rgt > ($item->lft +1)}
+			<a n:class="dropdown-toggle, $current ? $current"
+			   data-toggle="dropdown"
+			   href="{$url}"
+			   onclick="location.href='{$url|noescape}';">
+				{$item->name}
+			</a>
+		{else}
+			<a href="{$url}" n:class="$current ? $current" target="{$item->target}">
+				{$item->name}
+			</a>
+		{/if}
+		{var $depth = $item->depth}
+	{/foreach}
+	{!"</li>\n</ul>"|repeat:($depth +1)}
+</ul>
+{/block}

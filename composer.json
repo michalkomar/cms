@@ -1,0 +1,46 @@
+{
+    "name": "wundermanpraha/cms",
+    "description": "",
+    "type": "project",
+    "require": {
+        "nette/application": "2.3.3",
+        "nette/bootstrap": "2.3.2",
+        "nette/caching": "2.3.2",
+        "nette/component-model": "2.2.2",
+        "nette/deprecated": "2.3.0",
+        "nette/di": "2.3.4",
+        "nette/finder": "2.3.0",
+        "nette/forms": "2.3.3",
+        "nette/http": "2.3.2",
+        "nette/neon": "2.3.1",
+        "nette/php-generator": "2.3.0",
+        "nette/reflection": "2.3.0",
+        "nette/robot-loader": "2.3.0",
+        "nette/safe-stream": "2.3.0",
+        "nette/security": "2.3.0",
+        "nette/tokenizer": "2.2.0",
+        "nette/utils": "2.3.2",
+        "latte/latte": "2.3.2",
+        "tracy/tracy": "2.3.2",
+        "symfony/event-dispatcher": "v2.8",
+        "kdyby/doctrine": "^2.3",
+        "kdyby/monolog": "^1.1",
+        "raven/raven": "^0.12.0",
+        "phpmailer/phpmailer": "5.2.9",
+        "gedmo/doctrine-extensions": "^2.4.13",
+        "rixxi/gedmo": "1.0.3",
+        "kdyby/forms-replicator": "@dev",
+        "janmarek/webloader": "^2.5"
+    },
+    "license": "GNU GPL v3",
+    "authors": [
+        {
+            "name": "Petr Besir Horáček",
+            "email": "sirbesir@gmail.com"
+        }
+    ],
+    "minimum-stability": "beta",
+    "require-dev": {
+        "codeception/codeception": "^2.1"
+    }
+}

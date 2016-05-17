@@ -1,0 +1,159 @@
+{*
+ * @var $article
+ *}
+{block content}
+<a n:class="'anchor', (count($categories)  > 1 && $box['showFilters'] == 1) ? boxes-with-categories" name="{? echo \Nette\Utils\Strings::webalize($box['name'])}"></a>
+<div id="referenceBox-{$box['id']}" data-box-id="{$box['id']}" class="container text-component">
+	<div class="row filter" n:if="$box['showFilters'] == 1 && count($categories) > 1">
+		<div class="col-sm-12">
+			<p class="text-center reference-Box-categories">
+				{if count($categories) > 1}
+						<a class="filter{$box['id']}"  data-filter="all">all</a>
+					{foreach $categories as $key => $value}
+						<a class="filter{$box['id']}"  data-filter=".category-{\Nette\Utils\Strings::webalize($value)}">{$value}</a>
+					{/foreach}
+				{/if}
+			</p>
+		</div>
+	</div>
+	<div class="row" id="referenceBox-images-{$box['id']}">
+		{if count($box['items'])}
+			{foreach $box['items'] as $item}
+				<div class="col-xs-12 col-lg-4 col-sm-4 col-md-12 box-image mix{$box['id']} category-{\Nette\Utils\Strings::webalize($item['category'])} {if !is_null($item['attachment'])}with-image{else}only-text{/if}" data-box-id="{$item['id']}" {ifset $item['color']}style="background-color: #{$item['color']}"{/ifset}>
+					<img n:if="!is_null($item['attachment'])" width="100%" alt="{$item['title']}" src="{$basePath}/attachments/{$item['attachment']['md5']}" data-id="{$item['id']}" />
+					<div class="image-text-wrapper">
+						<div class="image-text">
+							<span class="name">{$item['title']|noescape}</span><br n:if="$item['secondtitle'] && $item['secondtitle'] != ''">
+							<span class="secondtitle" n:if="$item['secondtitle']">{$item['secondtitle']|noescape}</span><br n:if="$item['category'] && $item['category'] != ''">
+							{if !is_null($item['attachment'])}{$item['category']}{/if}
+						</div>
+					</div>
+				</div>
+			{/foreach}
+		{/if}
+	</div>
+	{if count($box['items'])}
+		<div>
+			{foreach $box['items'] as $item}
+			<div class="row {\Nette\Utils\Strings::webalize($item['category'])}" id="referenceBox-detail-{$item['id']}" data-category="{\Nette\Utils\Strings::webalize($item['category'])}" data-group-id="{$box['id']}" data-role="box-detail-frame" {ifset $item['detailColor']}style="background-color: #{$item['detailColor']}"{/ifset}>
+				<div class="col-sm-12">
+					<div class="row">
+						<div class="col-sm-12">
+							{$item['text']|noescape}
+						</div>
+					</div>
+					<div class="row box-controls">
+						<div class="col-sm-1 hidden-xs" n:if="$box['showNavigation']">
+							<a href="#" class="prev-box-detail"><span class="glyphicon glyphicon-chevron-left"></span></a>
+						</div>
+						<div class="col-sm-1 hidden-xs" n:if="$box['showNavigation']">
+							<a href="#" class="next-box-detail"><span class="glyphicon glyphicon-chevron-right"></span></a>
+						</div>
+						<div n:class="$box['showNavigation'] ? 'col-sm-10 col-xs-12', !$box['showNavigation'] ? 'col-sm-12 col-xs-12'">
+							<a class="referenceBox-detail-close pull-right">CLOSE <img src="{$basePath}/images/close-boxes-detail-white.png"></a>
+						</div>
+					</div>
+				</div>
+			</div>
+			{/foreach}
+		</div>
+	{/if}
+</div>
+<script type="text/javascript">
+	$(function(){
+		try
+		{
+			$('[id^="referenceBox-images-{$box['id']}"]').mixItUp({
+				selectors: {
+					target: '.mix{$box['id']}',
+					filter: '.filter{$box['id']}'
+				},
+				animation: {
+					enable: true
+				}
+			});
+		}
+		catch(e)
+		{
+			console.log(e);
+		}
+
+		$('[id^="referenceBox-images-"]').on('mixLoad', function(){
+			if(window.location.hash !== '')
+			{
+				try
+				{
+					var location = window.location.hash.substring(1);
+					$('body').animate({
+						scrollTop: parseInt($('a[name="'+location+'"').offset().top)
+					}, 1000);
+				}
+				catch(err) {
+					console.info('Cannot animate to target. Target '+ location + ' not exists.');
+				}
+			}
+		});
+
+		$('.next-box-detail').on('click', function(e){
+			e.preventDefault();
+			var groupId = $(this).closest('div[id^="referenceBox-detail-"]').data('group-id');
+			var detailId = $(this).closest('div[id^="referenceBox-detail-"]').attr('id');
+			var detailCategory = $('#'+detailId).data('category');
+
+			$('#'+detailId).hide();
+			if ($('#referenceBox-images-'+groupId).mixItUp('getState').activeFilter !== '.mix'+groupId)
+			{
+				if ($(this).closest('div[id^="referenceBox-detail-"]').nextAll('[data-category="'+detailCategory+'"]:first').length > 0)
+				{
+					$(this).closest('div[id^="referenceBox-detail-"]').nextAll('[data-category="'+detailCategory+'"]:first').show();
+				}
+				else
+				{
+					$('div[id^="referenceBox-detail-"][data-category="'+detailCategory+'"]:first').show();
+				}
+			}
+			else
+			{
+				if ($('#'+detailId).next().length > 0)
+				{
+					$('#'+detailId).next().show();
+				}
+				else
+				{
+					$('[id^="referenceBox-detail-"][data-group-id="'+groupId+'"]:first').show();
+				}
+			}
+		});
+
+		$('.prev-box-detail').on('click', function(e){
+			e.preventDefault();
+			var groupId = $(this).closest('div[id^="referenceBox-detail-"]').data('group-id');
+			var detailId = $(this).closest('div[id^="referenceBox-detail-"]').attr('id');
+			var detailCategory = $('#'+detailId).data('category');
+
+			$('#'+detailId).hide();
+			if ($('#referenceBox-images-'+groupId).mixItUp('getState').activeFilter !== '.mix'+groupId)
+			{
+				if ($(this).closest('div[id^="referenceBox-detail-"]').prevAll('[data-category="'+detailCategory+'"]:first').length > 0)
+				{
+					$(this).closest('div[id^="referenceBox-detail-"]').prevAll('[data-category="'+detailCategory+'"]:first').show();
+				}
+				else
+				{
+					$('div[id^="referenceBox-detail-"][data-category="'+detailCategory+'"]:last').show();
+				}
+			}
+			else
+			{
+				if ($('#'+detailId).prev().length > 0)
+				{
+					$('#'+detailId).prev().show();
+				}
+				else
+				{
+					$('[id^="referenceBox-detail-"][data-group-id="'+groupId+'"]:last').show();
+				}
+			}
+		});
+	});
+</script>

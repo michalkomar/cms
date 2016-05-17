@@ -1,0 +1,56 @@
+{*
+ * Bootstrap nav
+ *}
+{block content}
+
+{foreach $menus as $menu}
+<ul class="nav side-menu no-collapse">
+	<li><a><i class="fa fa-navicon"></i> {$menu->name}<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<li><a href="{plink ':Private:Pages:NewPage:' menuId=>$menu->id}"><i class="fa fa-plus text-success"></i> New page</a>
+			</li>
+		</ul>
+
+		{var $depth = -1}
+		<ul class="nav child_menu">
+		{foreach $menu->getItems() as $item}
+			{var $current = null}
+			{if $iterator->counter > 1}
+				{if $depth < $item->depth}
+					<ul class="nav child_menu" role="menu">
+				{else}
+					{!"</li>\n</ul>\n"|repeat:($depth - $item->depth)}</li>
+				{/if}
+			{/if}
+			{var $linkParams = \Nette\Utils\Json::Decode($item->params, \Nette\Utils\Json::FORCE_ARRAY)}
+			{if is_array($linkParams)}
+				{ifCurrent ':'.$item->presenter.':'.$item->action (expand)$linkParams}{var $current='active'}{/ifCurrent}
+			{/if}
+			<li
+				n:class="isset($item->params->class) ? $item->params->class,
+						($item->depth > 0) ? 'depth-'.$item->depth,
+						($item->rgt > $item->lft +1) ? 'dropdown',
+						$current ? $current
+				">
+				{if $item->rgt > $item->lft +1}
+					<a n:class="$current ? $current"
+					   href="{plink ':Private:Pages:EditPage:' id=>$item->id}">
+						<i n:class="fa, $item->published ? 'fa-eye text-success', !$item->published ? 'fa-eye-slash text-warning'"></i>
+						{$item->name}
+						<span n:class="fa, $item->homepage ? 'fa-home'"></span>
+					</a>
+				{else}
+					<a href="{plink ':Private:Pages:EditPage:' id=>$item->id}" n:class="$current ? $current">
+						<i n:class="fa, $item->published ? 'fa-eye text-success', !$item->published ? 'fa-eye-slash text-warning'"></i>
+						{$item->name}
+						<span n:class="fa, $item->homepage ? 'fa-home'"></span>
+					</a>
+				{/if}
+				{var $depth = $item->depth}
+			{/foreach}
+			{!"</li>\n</ul>"|repeat:($depth +1)}
+		</ul>
+
+	</li>
+</ul>
+{/foreach}

@@ -1,0 +1,11 @@
+{block content}
+<div id="textComponent-{$article['id']}" class="container text-component">
+	<div class="row">
+		<div class="col-sm-4">
+			<h1 n:if="!is_null($article['title']) && $article['title'] !== ''">{$article['title']}</h1>
+		</div>
+		<div class="col-sm-8">
+			{$article['content']|noescape}
+		</div>
+	</div>
+</div>

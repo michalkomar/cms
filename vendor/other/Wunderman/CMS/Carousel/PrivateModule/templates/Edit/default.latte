@@ -1,0 +1,117 @@
+{block content}
+{control wysiwyg}
+<link href="/PrivateModule/css/administrable.css" rel="stylesheet">
+<div>
+	<div class="page-title">
+		<div class="title_left">
+			<h3>Edit carousel</h3>
+		</div>
+
+		<div class="title_right">
+			<div class="pull-right">
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-8">
+			<div class="x_panel">
+				<div class="x_content">
+					<div class="row">
+						<div class="col-lg-12" n:snippet="editFormItem">
+							<div class="row">
+								{foreach $carousel->getItems() as $item}
+									{if $presenter->getParameter('editItemId') == $item->id}
+										{if $iterator->isLast()}</div><div class="row">{else}</div>{/if}
+											<div class="col-sm-12">
+												{control editItem}
+											</div>
+										{if $iterator->isLast()}{else}<div class="row">{/if}
+									{else}
+										<div class="col-lg-12">
+											<div class="carousel">
+												<div class="carousel-inner">
+													<div class="col-sm-12 admin-items carousel item {if !is_null($item->attachment)}with-image{else}only-text{/if}">
+														<div class="admin-items-toolbar">
+															<a n:if="!$iterator->isFirst()" n:href="moveLeft! moveItemId=>$item->id" class="btn btn-success ajax"><i class="fa fa-chevron-left"></i></a>
+															<a n:href="editCarouselItem! editItemId=>$item->id" class="btn btn-warning ajax">Edit</a>
+															<a n:if="!$iterator->isLast()" n:href="moveRight! moveItemId=>$item->id" class="btn btn-success pull-right ajax"><i class="fa fa-chevron-right"></i></a>
+														</div>
+														<div class="carousel-caption">
+															<br><br>
+															{$item->text|noescape}
+															<div class="second-text">{if $item->text2}{$item->text2|noescape}{/if}</div>
+														</div>
+													</div>
+													<a class="left carousel-control" href="#carousel-{$item->id}" role="button" data-slide="prev">
+														<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+														<span class="sr-only">Previous</span>
+													</a>
+													<a class="right carousel-control" href="#carousel-{$item->id}" role="button" data-slide="next">
+														<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+														<span class="sr-only">Next</span>
+													</a>
+												</div>
+											</div>
+										</div>
+									{/if}
+								{/foreach}
+							</div><br><br>
+							<div class="row">
+								<div class="col-lg-12 bg-success">
+									<h2>Add new item</h2>
+									{control newItem}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<div class="col-sm-4">
+			<div class="x_panel">
+				<div class="x_title">
+					<h3>Carousel preferences</h3>
+				</div>
+				<div class="x_content">
+					<div class="row">
+						<div class="col-lg-12">
+							{form boxPreferencesForm}
+								<div class="row">
+									<div class="col-lg-6">
+										<label>Name / title</label>
+									</div>
+									<div class="col-lg-6">
+										<input n:name="name" type="text" class="form-control">
+									</div>
+								</div><br>
+								<div class="row">
+									<div class="col-lg-6">
+										<label>Show header</label>
+									</div>
+									<div class="col-lg-6">
+										<input n:name="showHeader" type="checkbox" class="js-switch" data-switchery="true">
+									</div>
+								</div><br>
+								<div class="row">
+									<div class="col-lg-6">
+										<label>Show navigation</label>
+									</div>
+									<div class="col-lg-6">
+										<input n:name="showNavigation" type="checkbox" class="js-switch" data-switchery="true">
+									</div>
+								</div><br>
+								<div class="row">
+									<div class="col-lg-12">
+										{input save, class=>'btn btn-success'}
+									</div>
+								</div>
+							{/form}
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>

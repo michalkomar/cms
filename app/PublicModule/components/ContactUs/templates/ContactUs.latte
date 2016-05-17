@@ -1,0 +1,110 @@
+{*
+ * @var $article
+ *}
+{block content}
+<div id="form-ContactUs" class="container full-page-image">
+	<a class="anchor" name="contact-us-form"></a>
+	{form contactForm}
+		<div class="row">
+			<div class="col-lg-6">
+				{label name /}
+				{input name class=>'form-control'}
+			</div>
+			<div class="col-lg-6">
+				{label organisation /}
+				{input organisation class=>'form-control'}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-6">
+				{label address /}
+				{input address class=>'form-control'}
+			</div>
+			<div class="col-lg-3">
+				<span class="styled-input"></span>
+				<input type="checkbox" n:name="consultation" class="form-control">
+				<label n:name="consultation"><span>Consultation</span></label>
+			</div>
+			<div class="col-lg-3">
+				<span class="styled-input"></span>
+				<input type="checkbox" n:name="corporateLearning" class="form-control">
+				<label n:name="corporateLearning"><span>Corporate learning</span></label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				{label message /}
+				{input message class=>'form-control', rows=>'10'}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-2">
+				{label phoneCode /}
+				{input phoneCode class=>'form-control'}
+			</div>
+			<div class="col-lg-3">
+				{label phone /}
+				{input phone class=>'form-control'}
+			</div>
+			<div class="col-lg-7">
+				{input send, class=>'btn btn-transparent btn-black btn-bordered clearfix pull-right'}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-errors">
+					<div n:foreach="$flashes as $flash" class="alert alert-{$flash->type} alert-dismissible" role="alert">
+						<button type="button" class="close" data-dismiss="alert">
+							<span aria-hidden="true">&times;</span>
+							<span class="sr-only">Zavřít</span>
+						</button>
+						{$flash->message|noescape}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				* This field is required
+			</div>
+		</div>
+	{/form}
+</div>
+<script type="text/javascript">
+	$(function(){
+		var params = getHashParams();
+		if (params.consultation == 'true')
+		{
+			$('#form-ContactUs').find('input[name="consultation"]').prop('checked', true);
+		}
+		if (params.target)
+		{
+			setTimeout(function(){
+				$('body').animate({
+					scrollTop: parseInt($('a[name="'+params.target+'"]').offset().top)
+				}, 1);
+			}, 100);
+		}
+	});
+
+	var mauticUrl = 'http://devmautic.wunwork.cz';
+	var src = mauticUrl + '/mtracking.gif?page_url=' + encodeURIComponent(window.location.href) + '&page_title=' + encodeURIComponent(document.title);
+	var img = document.createElement('img');
+	img.style.width  = '1px';
+	img.style.height  = '1px';
+	img.style.display = 'none';
+	img.src = src;
+	var body = document.getElementsByTagName('body')[0];
+	body.appendChild(img);
+
+	{ifset $formSubmitted}
+	    try
+		{
+			ga('send', 'pageview', '/contact-form-sent');
+		}
+		catch(err)
+		{
+			console.info('Google analytics not sets.')
+		}
+	{/ifset}
+</script>

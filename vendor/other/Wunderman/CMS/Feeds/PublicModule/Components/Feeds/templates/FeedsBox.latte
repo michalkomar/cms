@@ -1,0 +1,45 @@
+{*
+ * @var $feedItem
+ *}
+{block content}
+<div class="container" id="hp-news-feed-carousel">
+	<div class="row">
+		<div class="col-lg-12">
+			<div id="news-feed-carousel" class="carousel slide" data-ride="carousel">
+				<div class="carousel-inner" role="listbox">
+					<!-- Wrapper for slides -->
+					<div n:foreach="$items as $item" n:class="$iterator->isFirst() ? 'active', 'item'">
+						<div class="bg-color-container{if $item['type'] == 'linkedin'} linkedin{/if}">
+							<div class="strike-header">
+								<div class="header">
+									{if $item['type'] == 'linkedin'}Follow Our LinkedIn{else}Follow Our Blog{/if}
+								</div>
+							</div>
+							<div class="read-more-btn">
+								<a n:if="$item['detail']" href="{$item['detail']}" class="btn btn-transparent btn-white btn-bordered clearfix">Read more</a>
+							</div>
+							<div class="text-inner">
+								<p class="content">
+									<span class="publish-date">{$item['datetime']|date:'j. n. Y'}</span>
+									<span class="header" n:ifset="$item['header']">{$item['header']|noescape}</span>
+									<span class="visible-xs">{$item['perex']|truncate:143:"..."|noescape}</span>
+									<span class="hidden-xs">{$item['perex']|noescape}</span>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Controls -->
+				<a n:if="count($items) > 1" class="left carousel-control" href="#news-feed-carousel" role="button" data-slide="prev">
+					<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+					<span class="sr-only">Previous</span>
+				</a>
+				<a n:if="count($items) > 1" class="right carousel-control" href="#news-feed-carousel" role="button" data-slide="next">
+					<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+					<span class="sr-only">Next</span>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>

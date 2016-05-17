@@ -1,0 +1,37 @@
+{var $robots = noindex}
+
+{block #content}
+<div class="">
+	<a class="hiddenanchor" id="toregister"></a>
+	<a class="hiddenanchor" id="tologin"></a>
+
+	<div id="wrapper">
+		<div id="login" class="animate form">
+			<section class="login_content">
+				{form signInForm, role=>'form'}
+					<h1>Login Form</h1>
+					<div>
+						<input n:name="username" type="text" class="form-control" placeholder="Username" required="" />
+					</div>
+					<div>
+						<input n:name="password" type="password" class="form-control" placeholder="Password" required="" />
+					</div>
+					<div>
+						<input n:name="send" class="btn btn-default submit" href="index.html" value="Log in">
+					</div>
+					<div class="clearfix"></div>
+					<div class="separator">
+
+						<div class="clearfix"></div>
+						<br />
+						<div>
+							<p>©2015 All Rights Reserved. Wunderman s.r.o.</p>
+						</div>
+					</div>
+				{/form}
+				<!-- form -->
+			</section>
+			<!-- content -->
+		</div>
+	</div>
+</div>

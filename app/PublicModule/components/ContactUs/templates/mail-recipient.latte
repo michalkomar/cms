@@ -1,0 +1,34 @@
+<table>
+	<tr>
+		<td>From page</td>
+		<td>{plink '://this'}</td>
+	</tr>
+	<tr>
+		<td>Name</td>
+		<td>{$values['name']}</td>
+	</tr>
+	<tr>
+		<td>Organisation</td>
+		<td>{$values['organisation']}</td>
+	</tr>
+	<tr>
+		<td>E-mail</td>
+		<td>{$values['address']}</td>
+	</tr>
+	<tr>
+		<td>Consultation</td>
+		<td>{if $values['consultation']}yes{else}no{/if}</td>
+	</tr>
+	<tr>
+		<td>Corporate learning</td>
+		<td>{if $values['corporateLearning']}yes{else}no{/if}</td>
+	</tr>
+	<tr>
+		<td>Message</td>
+		<td>{$values['message']}</td>
+	</tr>
+	<tr>
+		<td>Phone</td>
+		<td>{$values['phoneCode']} {$values['phone']}</td>
+	</tr>
+</table>

@@ -1,0 +1,147 @@
+parameters:
+	sentry:
+		dsn: ''
+		settings:
+			trace: true
+
+	mailer:
+		from: 'change@me.com'
+		fromName: 'Change Me'
+		sender: 'change@me.com'
+		domain: changeme.com
+		host: changeme.com
+#		port: 587
+		username: change@me.com
+		password: changeme
+		secure: ssl
+		DKIM_domain:
+		DKIM_private: '%appDir%/../../DKIM/private'
+		DKIM_selector:
+
+	https: true
+	attachmentsDir: '%appDir%/../../www/attachments'
+
+	googleTagManager:
+
+	PrivateModule:
+		AddButtons: []
+		PagePartsButtons: []
+	renderableComponents: []
+
+php:
+	date.timezone: Europe/Prague
+
+nette:
+	application:
+		errorPresenter: Error
+		mapping:
+			*: App\*Module\Presenter\*Presenter
+
+	session:
+		expiration: 14 days
+		autoStart: smart
+
+extensions:
+	gedmo: Rixxi\Gedmo\DI\OrmExtension
+	console: Kdyby\Console\DI\ConsoleExtension
+	events: Kdyby\Events\DI\EventsExtension
+	annotations: Kdyby\Annotations\DI\AnnotationsExtension
+	doctrine: Kdyby\Doctrine\DI\OrmExtension
+	monolog: Wunderman\Monolog\DI\MonologExtension
+
+	## CMS Extensions
+	CMSText: Wunderman\CMS\Text
+	CMSFullPageText: Wunderman\CMS\FullPageText
+	CMSFullPageImage: Wunderman\CMS\FullPageImage
+	CMSForm: Wunderman\CMS\Form
+	CMSCarousel: Wunderman\CMS\Carousel
+	CMSBoxes: Wunderman\CMS\Boxes
+	CMSYouTubeVideo: Wunderman\CMS\YoutubeVideo
+	CMSThreeColumns: Wunderman\CMS\ThreeColumns
+	CMSFlatPhotogallery: Wunderman\CMS\FlatPhotoGallery
+	CMSFeeds: Wunderman\CMS\Feeds
+
+	webloader: WebLoader\Nette\Extension
+
+gedmo:
+	tree: on
+	sortable: on
+
+doctrine:
+	host: ''
+	user: ''
+	password: ''
+	dbname: ''
+	metadata:
+		App: %appDir%
+
+monolog:
+	handlers:
+		raven: Monolog\Handler\RavenHandler(Raven_Client(%sentry.dsn%, %sentry.settings%))
+	name: MyWeb
+	registerFallback: true
+	processors:
+		- Monolog\Processor\MemoryPeakUsageProcessor
+		- Kdyby\Monolog\Processor\PriorityProcessor
+
+webloader:
+	css:
+		public:
+			files:
+				- bootstrap.min.css
+				- main.css
+		private:
+			files:
+				- ../PrivateModule/css/bootstrap.min.css
+				- ../PrivateModule/fonts/css/font-awesome.min.css
+				- ../PrivateModule/css/animate.min.css
+				- ../PrivateModule/css/custom.css
+				- ../PrivateModule/css/switchery/switchery.min.css
+				- ../PrivateModule/css/icheck/flat/green.css
+				- ../PrivateModule/css/kendo/kendo.common-bootstrap.css
+				- ../PrivateModule/css/kendo/kendo.common-bootstrap.core.css
+				- ../PrivateModule/css/kendo/kendo.bootstrap.css
+
+	js:
+		public:
+			files:
+
+CMSFeeds:
+	feeds:
+		wordpress: http://changeme.com/feed/
+		linkedin:
+			accessToken:
+			url:
+
+services:
+	composedPagePresenter:
+		class: App\PrivateModule\PagesModule\Presenter\ComposedPagePresenter(%PrivateModule.AddButtons%)
+	- App\PublicModule\ComposeModule\Component\ComponentWrapperFactory(%renderableComponents%, ...)
+	- App\PrivateModule\PagesModule\Component\ComponentWrapperFactory(%renderableComponents%, ...)
+
+	- App\PrivateModule\Components\MenuPageParts\MenuPagePartsFactory(%PrivateModule.PagePartsButtons%)
+
+	- App\RouterFactory
+	router: @App\RouterFactory::createRouter
+	authenticator: DatabaseAuthenticator
+	authorizator: \Security\Acl
+
+	mail.mailer: \App\service\Mailer
+
+	tm: App\PublicModule\Component\GoogleTagManager(%googleTagManager%)
+
+	- App\ParametersFactory
+	- App\PrivateModule\UsersModule\Model\Service\Users
+
+	- App\PublicModule\TextModule\Model\Service\Text
+	- App\PublicModule\Component\ContactUsFormFactory
+	- App\PublicModule\ComposeModule\Model\Service\Compose
+	- App\PrivateModule\BoxesModule\Model\Service\Boxes
+	- App\PrivateModule\CarouselModule\Model\Service\Carousel
+
+	- App\PrivateModule\AttachmentModule\Model\Service\Attachment
+
+
+includes:
+	- PublicModule.neon
+	- TextModule.neon

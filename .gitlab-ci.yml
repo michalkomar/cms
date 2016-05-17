@@ -1,0 +1,9 @@
+dev_tests:
+  script:
+    - mkdir tmp
+    - composer install
+    - vendor/bin/tester -p php tests
+  tags:
+    - shell
+  only:
+    - dev

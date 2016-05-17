@@ -1,0 +1,13 @@
+parameters:
+	PrivateModule:
+		AddButtons:
+			## This name must be same as name of injected service in Wunderman\CMS\FullPageText for composedPagePresenter (@privateModuleService in this config)
+			fullPageText:
+				text: 'Add full page text'
+				tooltip: ''
+	renderableComponents:
+		fullPageText:
+
+services:
+	privateModuleService:
+	 	class: Wunderman\CMS\FullPageText\PrivateModule\Service

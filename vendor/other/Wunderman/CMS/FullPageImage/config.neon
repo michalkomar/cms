@@ -1,0 +1,13 @@
+parameters:
+	PrivateModule:
+		AddButtons:
+			## This name must be same as name of injected service in Wunderman\CMS\FullPageImage for composedPagePresenter (@privateModuleService in this config)
+			fullPageImage:
+				text: 'Add full page image'
+				tooltip: ''
+	renderableComponents:
+		fullPageImage:
+
+services:
+	privateModuleService:
+	 	class: Wunderman\CMS\FullPageImage\PrivateModule\Service

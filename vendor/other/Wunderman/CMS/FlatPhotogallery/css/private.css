@@ -1,0 +1,95 @@
+
+#flatPhotoGallery #flatPhotoGallery-list .image-row input[type="radio"] {
+	margin-top: 10px;
+}
+
+#flatPhotoGallery .k-listview {
+	border: none;
+	box-shadow: none;
+	line-height: inherit;
+	-webkit-box-sizing: inherit;
+	-moz-box-sizing: inherit;
+	box-sizing: inherit;
+}
+
+#flatPhotoGallery .k-listview div {
+	-webkit-box-sizing: inherit;
+	-moz-box-sizing: inherit;
+	box-sizing: inherit;
+}
+
+#flatPhotoGallery .k-listview div.image-row::before, #flatPhotoGallery .k-listview input {
+	-webkit-box-sizing: inherit;
+	-moz-box-sizing: inherit;
+	box-sizing: inherit;
+}
+
+#flatPhotoGallery .sorting {
+	cursor: move;
+}
+
+#flatPhotoGallery div#save {
+	position: absolute;
+	right: 0;
+	top: 5px;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.k-grouping-row>td {
+	background-color: #73879C !important;
+	color: #fff !important;
+}
+
+.k-grid-header {
+	background-color: transparent !important;
+}
+
+.k-header.k-grid-toolbar {
+	border: none !important;
+	background-color: transparent !important;
+}
+
+.k-grid-header-wrap thead .k-header {
+	font-weight: bold !important;
+	background-color: transparent !important;
+	border: none !important;
+}
+
+.k-grid.k-widget {
+	border: none !important;
+}
+
+.k-group-cell, .k-grid-header-wrap {
+	background-color: transparent !important;
+	border: none !important;
+}
+
+.k-alt {
+	background-color: transparent !important;
+}
+
+.k-grid-content tbody[role="rowgroup"] td[role="gridcell"] {
+	border-left: none !important;
+}
+
+#flatPhotoGallery .k-combobox.form-control, #flatPhotoGallery .k-combobox.form-control .k-dropdown-wrap {
+	width: 100% !important;
+}
+
+.k-dropzone {
+	background-color: #E6E9ED !important;
+}
+
+.k-dropzone em {
+	visibility: visible !important;
+}
+
+#flatPhotoGallery input[type="number"].form-control {
+	padding: 0;
+	text-align: center;
+}
+
+#flatPhotoGallery textarea {
+	box-sizing: border-box;
+}

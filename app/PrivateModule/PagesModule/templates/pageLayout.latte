@@ -1,0 +1,129 @@
+{*
+ * $article
+ * $menuItem
+ *}
+{extends '../../templates/@layout.latte'}
+{block content}
+<div>
+	{control wysiwyg}
+	{form pageForm}
+		<div class="row">
+			<div class="errors col-sm-12" n:if="$form->hasErrors()">
+				<div class="alert alert-danger" n:foreach="$form->errors as $error">{$error}</div>
+			</div>
+		</div>
+		<div class="page-title">
+			<div class="title_left">
+				<h3>{include pageTitle}{ifset $menuItem} - {$menuItem->name}{/ifset}</h3>
+			</div>
+
+			<div class="title_right">
+				<div class="pull-right">
+					<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+					{input save class=>'btn btn-success'}
+					<i class="glyph-icon icon-search"></i>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="row">
+			<div class="col-lg-8">
+				<div class="x_panel">
+					<div class="x_content">
+						{include pageContent _form=>$_form}
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				{ifset #pageRight}{include pageRight _form=>$_form}{/ifset}
+				<div class="x_panel">
+					<div class="x_title">
+						<h2>Page settings</h2>
+						<div class="clearfix"></div>
+					</div>
+					<div class="x_content">
+						<div class="row">
+							<div class="col-lg-6">
+								<label>Name</label>
+							</div>
+							<div class="col-lg-6">
+								<input n:name="name" name="name" type="text" class="form-control">
+							</div>
+						</div>
+						<br>
+						<div class="row">
+							<div class="col-lg-6">
+								<label>Url</label>
+							</div>
+							<div class="col-lg-6">
+								<input n:name="url" name="url" type="text" class="form-control">
+							</div>
+						</div>
+						<br>
+						<div class="row">
+							<div class="col-lg-6">
+								<label>Homepage</label>
+							</div>
+							<div class="col-lg-6">
+								<input n:name="homepage" type="checkbox" class="js-switch" data-switchery="true">
+							</div>
+						</div><br>
+						<div class="row">
+							<div class="col-lg-6">
+								<label>Published</label>
+							</div>
+							<div class="col-lg-6">
+								<input n:name="published" type="checkbox" class="js-switch" data-switchery="true">
+							</div>
+						</div><br>
+						<div class="row">
+							<div class="col-lg-6">
+								<label>Target</label>
+							</div>
+							<div class="col-lg-6">
+								<select n:name="target" class="form-control"></select>
+							</div>
+						</div><br>
+						<div class="row">
+							<div class="col-lg-6">
+								<label>Parent menu item</label>
+							</div>
+							<div class="col-lg-6">
+								<select n:name="parent" class="form-control"></select>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	{/form}
+</div>
+<hr>
+<div class="row" n:if="$presenter->getParameter('id')">
+	<div class="col-sm-12">
+		<div class="alert alert-danger">
+			<h3>Danger zone</h3>
+			<button class="btn btn-danger" data-toggle="modal" data-target="#myModal">
+				Delete page
+			</button>
+		</div>
+	</div>
+</div>
+
+<div  n:if="$presenter->getParameter('id')" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Delete page</h4>
+			</div>
+			<div class="modal-body">
+				Are you sure? For delete this page click on delete.
+			</div>
+			<div class="modal-footer">
+				<a type="button" class="btn btn-default" data-dismiss="modal">Cancel</a>
+				<a n:href="delete id=>$presenter->getParameter('id')" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i> Delete</a>
+			</div>
+		</div>
+	</div>
+</div>

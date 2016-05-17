@@ -1,0 +1,104 @@
+{*
+ * Bootstrap nav
+ *}
+{block content}
+<link href="{$basePath}/PrivateModule/css/kendo/kendo.common.css" rel="stylesheet">
+<link href="{$basePath}/PrivateModule/css/kendo/kendo.default.css" rel="stylesheet">
+<script src="{$basePath}/PrivateModule/js/kendo/kendo.all.min.js"></script>
+<div id="{if $item->id}edit-box-item-{$item->id}{else}new-box-item{/if}">
+	{form editItemForm}
+		<br>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="alert alert-danger" n:foreach="$form->errors as $error">{$error}</div>
+			</div>
+			<div class="col-lg-7">
+				<div class="row">
+					<div class="col-sm-3">
+						{label title /}
+					</div>
+					<div class="col-sm-9">
+						<input class="form-control" n:name="title">
+					</div>
+				</div><br>
+			</div>
+			<div class="col-md-5">
+				<div class="row" n:if="!$item->attachment">
+					<div class="col-sm-3">
+						{label image /} <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="Recomended size 341px&nbsp;x&nbsp;278px"></i>
+					</div>
+					<div class="col-sm-9">
+						<input n:name="image">
+					</div>
+				</div>
+				<div class="row" n:if="$item->attachment">
+					<div class="col-sm-12">
+						<a n:href="deleteImage! itemId=>$item->id" class="btn btn-danger" style="position: absolute;">Delete image</a>
+						<img src="{$basePath}/attachments/{$item->attachment->md5}" width="100%"/>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-12">
+				{label text /}
+				{input text class=>'form-control wysiwyg'}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="btn-group">
+					<a href="{plink this, do=>null, editItemId=>null}" class="btn btn-warning">Cancel</a>
+					{input boxId}
+					{input item}
+					{input requestKey}
+					{input save class=>'btn btn-success'}
+				</div>
+			</div>
+		</div>
+		<div class="clearfix"></div><br>
+		<div class="row bg-danger" n:if="$item->id">
+			<div class="col-sm-12">
+				<h2>Delete item</h2>
+				<a href="#" class="btn btn-danger" data-toggle="modal" data-target="#deleteItem">Delete</a>
+			</div>
+		</div>
+		<hr n:if="$item->id">
+	{/form}
+	<div  n:if="$presenter->getParameter('id')" class="modal fade" id="deleteItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">Delete box item</h4>
+				</div>
+				<div class="modal-body">
+					Are you sure?
+				</div>
+				<div class="modal-footer">
+					<a type="button" class="btn btn-default" data-dismiss="modal">Cancel</a>
+					<a n:href="deleteItem! itemId=>$item->id" class="btn btn-danger">Delete</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		{*var detailColorSelector = '#{if $item->id}edit-box-item-{$item->id} #frm-editItem-editItemForm-detailColor{else}new-box-item #frm-newItem-editItemForm-detailColor{/if}';*}
+		{*var colorSelector = '#{if $item->id}edit-box-item-{$item->id} #frm-editItem-editItemForm-color{else}new-box-item #frm-newItem-editItemForm-color{/if}';*}
+		{*var textEditorSelector = '#{if $item->id}edit-box-item-{$item->id} #frm-editItem-editItemForm-text{else}new-box-item #frm-newItem-editItemForm-text{/if}';*}
+		{*$(detailColorSelector).kendoColorPicker({*}
+			{*buttons: true,*}
+			{*change: function(e){*}
+				{*var editor = $(textEditorSelector).data("kendoEditor");*}
+				{*editor.body.style.backgroundColor = e.value;*}
+			{*}*}
+		{*});*}
+
+		{*$(colorSelector).kendoColorPicker({*}
+			{*buttons: true*}
+		{*});*}
+
+		{*var editor = $(textEditorSelector).data("kendoEditor");*}
+		{*editor.body.style.backgroundColor = '#'+{$item->detailColor};*}
+	});
+</script>

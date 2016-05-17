@@ -1,0 +1,13 @@
+parameters:
+	PrivateModule:
+		AddButtons:
+			## This name must be same as name of injected service in Wunderman\CMS\Form for composedPagePresenter (@privateModuleService in this config)
+			form:
+				text: 'Add form'
+				tooltip: 'Adding any predefined form. If you need new form, please contact webmaster.'
+	renderableComponents:
+		form:
+
+services:
+	privateModuleService:
+	 	class: Wunderman\CMS\Form\PrivateModule\Service

@@ -1,0 +1,8 @@
+<div class="menu_section" n:if="count($items)">
+	<h3>Page parts</h3>
+	<ul class="nav side-menu" n:foreach="$items as $key => $item">
+		<li>
+			<a href="{plink $key}"><i n:class="fa, isset($item['icon'])?$item['icon']"></i> {$item['text']}</a>
+		</li>
+	</ul>
+</div>

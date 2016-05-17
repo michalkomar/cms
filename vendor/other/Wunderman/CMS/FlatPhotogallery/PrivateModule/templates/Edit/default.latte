@@ -1,0 +1,268 @@
+{block content}
+{control wysiwyg}
+
+<script type="text/x-kendo-template" id="image">
+	<div class="row image-row">
+		<div class="col-lg-2 col-md-2 col-sm-2"><img src="/attachments/#=attachment.md5#" alt="#=title#" class="img-rounded" width="100%"></div>
+		<div class="col-lg-3 col-md-3 col-sm-3"><input type="text" class="form-control" data-bind="value: title" data-value-update="keyup change"></div>
+		<div class="col-lg-4 col-md-4 col-sm-4">
+			<textarea class="form-control" data-bind="value: text" data-value-update="keyup change"></textarea>
+		</div>
+		<div class="col-lg-1 col-md-1 col-sm-1">
+			<div class="input-group">
+				<div class="input-group-addon sorting"></div>
+				<input type="number" class="form-control" data-bind="value: position" disabled>
+			</div>
+		</div>
+		<div class="col-lg-2 col-md-2 col-sm-2"><a class="btn btn-danger" data-bind="{ click: removePhotoConfirm}"><i class="glyphicon glyphicon-trash"></i> Delete</a></div>
+		<div class="col-lg-12">
+			<hr>
+		</div>
+	</div>
+</script>
+
+
+<div n:if="$gallery">
+	<div class="page-title">
+		<div class="title_left">
+			<h3>Edit gallery</h3>
+		</div>
+
+		<div class="title_right">
+			<div class="pull-right">
+			</div>
+		</div>
+	</div>
+	<div class="row" id="flatPhotoGallery">
+		<div class="modal fade" id="removePhotoModal" tabindex="-1" role="dialog" aria-labelledby="removeModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="exampleModalLabel">Delete gallery item</h4>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-lg-4">
+								<img width="100%" class="img-rounded" src="">
+							</div>
+							<div class="-col-lg-8">
+								Are you sure?
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<a class="btn btn-default" data-dismiss="modal">Cancel</a>
+						<a href="#" data-bind="click: removePhoto" class="btn btn-danger confirm">Delete</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-12 col-md-12 col-lg-8">
+			<div class="x_panel">
+				<div class="x_content">
+					<div class="row" id="images">
+						<div class="col-lg-12">
+							<input name="image"
+							       type="file"
+							       data-role="upload"
+							       data-show-file-list="false"
+							       data-async="{ saveUrl: '{link uploadImage!}', autoUpload: true}"
+							       data-bind="events: { success: fileUploaded, upload: fileUploadStart, complete: filesUploadsComplete}">
+							<div class="row form-group">
+								<br>
+								<div class="col-lg-2 col-md-2 col-sm-2"><strong>Image</strong></div>
+								<div class="col-lg-3 col-md-3 col-sm-3"><strong>Alt text</strong></div>
+								<div class="col-lg-4 col-md-4 col-sm-4"><strong>Description</strong></div>
+								<div class="col-lg-1 col-md-1 col-sm-1"><strong>Sort</strong></div>
+								<div class="col-lg-2 col-md-2 col-sm-2"><strong>Action</strong></div>
+								<div class="col-lg-12">
+									<hr>
+								</div>
+							</div>
+							<div id="images-list" data-role="listview" data-bind="source: images" data-template="image">
+								<div></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-12 col-md-12 col-lg-4">
+			<div class="x_panel">
+				<div class="x_title">
+					<h3>Gallery preferences</h3>
+				</div>
+				<div class="x_content">
+					<div class="row">
+						<div class="col-lg-12">
+							{form galleryPreferencesForm}
+								<div class="row">
+									<div class="col-lg-6">
+										<label>Name</label>
+									</div>
+									<div class="col-lg-6">
+										<input n:name="name" type="text" class="form-control">
+									</div>
+								</div><br>
+								<div class="row">
+									<div class="col-lg-12">
+										{input save, class=>'btn btn-success'}
+									</div>
+								</div>
+							{/form}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(function() {
+			images = new kendo.observable({
+				images: new kendo.data.DataSource({
+					transport: {
+						update: {
+							dataType: 'json',
+							type: 'POST',
+							url: {link updateImage!}
+						},
+						destroy: {
+							dataType: 'json',
+							type: 'POST',
+							url: {link destroyImage!}
+						}
+					},
+					requestStart: function(e) {
+						if (e.type != 'read')
+						{
+							NProgress.start();
+						}
+					},
+					requestEnd: function(e) {
+						if (e.type === 'destroy')
+						{
+							images.images.data(e.response);
+						}
+					},
+					sync: function(e) {
+						NProgress.set(1);
+					},
+					schema: {
+						model: {
+							id: 'id',
+							fields: {
+								attachment: { type: 'object', defaultValue: { id:null, md5:null}},
+								position: { type: 'number'},
+								text: { type: 'string'},
+								title: { type: 'string'}
+							}
+						}
+					}
+				}),
+				fileUploadStart: function(e)
+				{
+					NProgress.start();
+				},
+				fileUploaded: function(e) {
+					imagesListContainer.data('kendoListView').dataSource.add(e.response);
+				},
+				filesUploadsComplete: function() {
+					NProgress.set(1);
+				},
+				removePhotoConfirm: function(e)
+				{
+					var uid = $(e.currentTarget).closest('div.image-row').data('uid');
+					var model = imagesListContainer.data('kendoListView').dataSource.getByUid(uid);
+					$('#removePhotoModal').attr('data-uid', uid);
+					$('#removePhotoModal').find('img.img-rounded').attr('src', '/attachments/'+model.attachment.md5);
+					$('#removePhotoModal').modal('show');
+				},
+				removePhoto: function(e)
+				{
+					e.preventDefault();
+					var uid = $(e.currentTarget).closest('div.modal').attr('data-uid');
+					var model = imagesListContainer.data('kendoListView').dataSource.getByUid(uid);
+					model.set('status', 'del');
+
+					images.images.remove(model);
+					images.images.sync();
+					$('#removePhotoModal').modal('hide');
+				}
+			});
+
+			try {
+				var data = $.parseJSON({$images});
+				if (data.length == 0)
+				{
+					images.images.data([]);
+				}
+				else
+				{
+					images.images.data(data);
+				}
+
+				// @TODO Workaround - need fix Cannot read property 'data' of undefined and move this out of try-catch
+				kendo.bind('#flatPhotoGallery', images);
+			}
+			catch(e)
+			{
+				console.log(e);
+			}
+
+			var imagesListContainer = $('#images-list');
+
+			imagesListContainer.kendoSortable({
+				ignore: "input, text, textarea",
+				cursor: "move",
+				axis: "y",
+				container: imagesListContainer,
+
+				/**
+				 * Prepare moved element (clone of original with edited design)
+				 *
+				 * @param element
+				 * @returns { *|jQuery}
+				 */
+				hint: function(element) {
+					var newElement = $(element).clone().css({
+						'background-color': '#f1f1f1',
+						'box-shadow': '0 2px 4px 0 #ccc',
+						'padding-top': '15px',
+						height: element.height(),
+						display: 'block',
+						overflow: 'hidden',
+						width: $('#images-list').width(),
+						'margin-left': '10px'
+					});
+					newElement.find('input[type="radio"]').css({ 'top': '10px', 'position': 'relative'});
+					newElement.find('hr').remove();
+					return newElement;
+				},
+
+				/**
+				 * Resort images in DataSource
+				 *
+				 * @param e
+				 */
+				change: function(e) {
+					var DS = imagesListContainer.data('kendoListView').dataSource;
+					$.each(this.items(), function(index, item){
+						var model = DS.getByUid($(item).data('uid'));
+						model.set('position', index + 1);
+					});
+				}
+			});
+
+			$('#frm-galleryPreferencesForm').find('input[name="save"]').on('click', function(e){
+				NProgress.start();
+				NProgress.set(0.3);
+				if (images.images.hasChanges())
+				{
+					images.images.sync();
+				}
+			});
+		});
+	</script>
+</div>
+{/block}

@@ -1,0 +1,26 @@
+parameters:
+	sentry:
+		dsn: ''
+		settings:
+			trace: true
+	https: true
+	mailer:
+		from: 'mail@example.com'
+		fromName: %mailer.from%
+		sender: %mailer.from%
+		domain: example.com
+		host:
+#		port: 587
+		username:
+		password:
+		secure: ssl
+
+	googleAnalytics:
+
+doctrine:
+	host: ''
+	user:
+	password:
+	dbname: ''
+	metadata:
+		App: %appDir%
