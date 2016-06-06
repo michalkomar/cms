@@ -19,7 +19,7 @@ use Nette\Utils\Json;
  * StandardPagePresenter
  * @author Petr Besir Horáček <sirbesir@gmail.com>
  */
-class ComposedPagePresenter extends PagePresenter implements IPage
+class ComposePresenter extends PagePresenter implements IPage
 {
 
 	const SESSION_SECTION = 'composedPageTmp';
@@ -83,8 +83,6 @@ class ComposedPagePresenter extends PagePresenter implements IPage
 	public $componentsWrapperFactory;
 
 	/**
-	 * ComposedPagePresenter constructor.
-	 *
 	 * @param $addButtons
 	 */
 	public function __construct($addButtons)

@@ -11,3 +11,7 @@ parameters:
 services:
 	privateModuleService:
 	 	class: Wunderman\CMS\FullPageImage\PrivateModule\Service
+
+	fullPageImageFactory:
+		class: App\PublicModule\Component\FullPageImage
+		implement: App\PublicModule\Component\IFullPageImageFactory

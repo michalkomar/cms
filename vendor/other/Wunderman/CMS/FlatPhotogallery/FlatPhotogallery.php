@@ -35,7 +35,7 @@
 			$builder->getDefinition("webloader.jsPublicFiles")->addSetup('addFile', [realpath(__DIR__.'/js/swipeFunc.js')]);
 			$builder->getDefinition("webloader.jsPublicFiles")->addSetup('addFile', [realpath(__DIR__.'/js/public.js')]);
 
-			$builder->getDefinition('composedPagePresenter')->addSetup('addExtensionService',
+			$builder->getDefinition('privateComposePresenter')->addSetup('addExtensionService',
 				['flatPhotoGallery', $this->prefix('@privateModuleService')]);
 
 			// extending ACL resources

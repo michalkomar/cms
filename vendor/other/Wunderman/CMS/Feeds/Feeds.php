@@ -42,7 +42,7 @@
 		public function beforeCompile()
 		{
 			$builder = $this->getContainerBuilder();
-			$builder->getDefinition('composedPagePresenter')->addSetup('addExtensionService',
+			$builder->getDefinition('privateComposePresenter')->addSetup('addExtensionService',
 				['feeds', $this->prefix('@privateModuleService')]);
 
 			$parsers = $this->createParsersServices($builder);

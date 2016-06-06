@@ -27,7 +27,7 @@
 		public function beforeCompile()
 		{
 			$builder = $this->getContainerBuilder();
-			$builder->getDefinition('composedPagePresenter')->addSetup('addExtensionService',
+			$builder->getDefinition('privateComposePresenter')->addSetup('addExtensionService',
 				['boxes', $this->prefix('@privateModuleService')]);
 
 			// extending ACL resources

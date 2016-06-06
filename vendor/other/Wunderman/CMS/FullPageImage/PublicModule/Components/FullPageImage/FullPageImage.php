@@ -1,29 +1,30 @@
 <?php
 
 namespace App\PublicModule\Component;
-use Doctrine\ORM\Query;
 
-/**
- * Menu
- * @author Petr Besir Horáček <sirbesir@gmail.com>
- */
+use Doctrine\ORM\Query;
+use Kdyby\Doctrine\EntityManager;
+
 class FullPageImage extends \Nette\Application\UI\Control
 {
-	/** @var \Kdyby\Doctrine\EntityManager */
+
+	/**
+	 * @var EntityManager
+	 */
 	private $em;
+
 
 	public function __construct(\Kdyby\Doctrine\EntityManager $em)
 	{
 		$this->em = $em;
 	}
 
+
 	/**
-	 * Render setup
-	 * @author Petr Besir Horáček <sirbesir@gmail.com>
-	 * @var integer $textId
-	 * @see Nette\Application\Control#render()
+	 * @param  array  $params
+	 * @return void
 	 */
-	public function render($params)
+	public function render(array $params)
 	{
 		if (!isset($params['id'])) throw new \InvalidArgumentException('Image id is not set in database.');
 
@@ -37,4 +38,5 @@ class FullPageImage extends \Nette\Application\UI\Control
 	{
 		return $this->em->getRepository('\App\Entity\Attachment');
 	}
+
 }

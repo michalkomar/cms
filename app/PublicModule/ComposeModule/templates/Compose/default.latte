@@ -1,7 +1,7 @@
 {block content}
 	<div class="content">
 		{foreach $pageParts as $part}
-			{capture $id}{$part['id']}{/capture}
-			{control componentWrapper-$id, $part}
+			{control $part['id'], $part}
 		{/foreach}
 	</div>
+{/block}

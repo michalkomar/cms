@@ -44,7 +44,7 @@ class Compose extends \Nette\Object
 
 	public function readArticleParts($id)
 	{
-		$items =  $this->composeArticleItemRepository()->createQueryBuilder('p')
+		$items = $this->composeArticleItemRepository()->createQueryBuilder('p')
 				->select('p, params')
 				->leftJoin('p.params', 'params')
 				->where('p.composeArticle = :composeArticle')
@@ -55,9 +55,16 @@ class Compose extends \Nette\Object
 				->getQuery()
 				->getResult(Query::HYDRATE_ARRAY);
 
-		foreach ($items as &$item)
+		$items_by_id = [];
+
+		foreach ($items as $item) {
+			$items_by_id[$item['id']] = $item;
+		}
+
+		foreach ($items_by_id as &$item)
 		{
 			$params = [];
+
 			foreach ($item['params'] as $param)
 			{
 				$params[$param['name']] = $param['value'];
@@ -66,7 +73,7 @@ class Compose extends \Nette\Object
 			$item['params'] = $params;
 		}
 
-		return $items;
+		return $items_by_id;
 	}
 
 	public function readPartParams($id)

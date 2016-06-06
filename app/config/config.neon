@@ -52,7 +52,7 @@ extensions:
 	## CMS Extensions
 	CMSText: Wunderman\CMS\Text
 	CMSFullPageText: Wunderman\CMS\FullPageText
-	CMSFullPageImage: Wunderman\CMS\FullPageImage
+	CMSFullPageImage: Wunderman\CMS\FullPageImageExtension
 	CMSForm: Wunderman\CMS\Form
 	CMSCarousel: Wunderman\CMS\Carousel
 	CMSBoxes: Wunderman\CMS\Boxes
@@ -114,8 +114,11 @@ CMSFeeds:
 			url:
 
 services:
-	composedPagePresenter:
-		class: App\PrivateModule\PagesModule\Presenter\ComposedPagePresenter(%PrivateModule.AddButtons%)
+	privateComposePresenter:
+		class: App\PrivateModule\PagesModule\Presenter\ComposePresenter(%PrivateModule.AddButtons%)
+	publicComposePresenter:
+		class: App\PublicModule\ComposeModule\Presenter\ComposePresenter
+
 	- App\PublicModule\ComposeModule\Component\ComponentWrapperFactory(%renderableComponents%, ...)
 	- App\PrivateModule\PagesModule\Component\ComponentWrapperFactory(%renderableComponents%, ...)
 

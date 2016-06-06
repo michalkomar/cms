@@ -32,7 +32,7 @@
 			$builder->getDefinition("webloader.cssPublicFiles")->addSetup('addFile', [realpath(__DIR__.'/css/main.css')]);
 			$builder->getDefinition("webloader.cssPrivateFiles")->addSetup('addFile', [realpath(__DIR__.'/css/main.css')]);
 
-			$builder->getDefinition('composedPagePresenter')->addSetup('addExtensionService',
+			$builder->getDefinition('privateComposePresenter')->addSetup('addExtensionService',
 				['youtubeVideo', $this->prefix('@privateModuleService')]);
 		}
 	}
