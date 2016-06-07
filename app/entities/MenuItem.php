@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Nette\Utils\Json;
 
 /**
  * Petr Besir Horáček <sirbesir@gmail.com>
@@ -105,6 +106,35 @@ class MenuItem extends \Kdyby\Doctrine\Entities\BaseEntity
      * @ORM\Column(type="string")
      */
     protected $target = '_self';
+
+
+    public function getEncodedParams($decode = FALSE)
+    {
+        if ($decode) {
+            return Json::decode($this->params, Json::FORCE_ARRAY);
+        }
+
+        return $this->params;
+    }
+
+
+    public function getPresenter()
+    {
+        return $this->presenter;
+    }
+
+
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+
+    public function getDepth()
+    {
+        return $this->depth;
+    }
+
 
     public function delete()
     {

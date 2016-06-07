@@ -8,27 +8,28 @@
 {foreach $items as $item}
 	{var $current = null}
 	{if $iterator->counter > 1}
-		{if $depth < $item->depth}
+		{if $depth < $item->getDepth(}
 			<ul class="dropdown-menu" role="menu">
 		{else}
-			{!"</li>\n</ul>\n"|repeat:($depth - $item->depth)}</li>
+			{!"</li>\n</ul>\n"|repeat:($depth - $item->getDepth()}</li>
 		{/if}
 	{/if}
-	{var $linkParams = \Nette\Utils\Json::Decode($item->params, \Nette\Utils\Json::FORCE_ARRAY)}
-	{if is_array($linkParams) && $item->presenter !== 'ExternalUrl'}
+
+	{var $linkParams = $item->getParams(TRUE)}
+	{if is_array($linkParams) && $item->getPresenter() !== 'ExternalUrl'}
 		{ifCurrent ':'.$item->presenter.':'.$item->action (expand)$linkParams}{var $current='active'}{/ifCurrent}
 	{/if}
 
 	{** Compute final url for item **}
-	{if $item->presenter !== 'ExternalUrl'}
+	{if $item->getPresenter() !== 'ExternalUrl'}
 		{capture $url}{$basePath}/{$item->url}{/capture}
 	{else}
 		{capture $url}{$item->url}{/capture}
 	{/if}
 
 	<li
-		n:class="isset($item->params->class) ? $item->params->class,
-				($item->depth > 0) ? 'depth-'.$item->depth,
+		n:class="isset($linkParams->class) ? $linkParams->class,
+				($item->getDepth( > 0) ? 'depth-'.$item->getDepth(,
 				($item->rgt > $item->lft +1) ? 'dropdown',
 				$current ? $current
 		">
@@ -44,7 +45,7 @@
 				{$item->name}
 			</a>
 		{/if}
-		{var $depth = $item->depth}
+		{var $depth = $item->getDepth(}
 	{/foreach}
 	{!"</li>\n</ul>"|repeat:($depth +1)}
 </ul>
