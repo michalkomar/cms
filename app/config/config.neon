@@ -52,7 +52,7 @@ extensions:
 	## CMS Extensions
 	CMSText: Wunderman\CMS\Text
 	CMSFullPageText: Wunderman\CMS\FullPageText
-	CMSFullPageImage: Wunderman\CMS\FullPageImageExtension
+	CMSFullPageImage: Wunderman\CMS\FullPageImage\DI\FullPageImageExtension
 	CMSForm: Wunderman\CMS\Form
 	CMSCarousel: Wunderman\CMS\Carousel
 	CMSBoxes: Wunderman\CMS\Boxes
