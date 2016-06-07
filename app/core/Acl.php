@@ -47,7 +47,7 @@ class Acl extends \Nette\Security\Permission
 		$this->addResource('Private:Pages:NewPage');
 		$this->addResource('Private:Pages:TextPage');
 		$this->addResource('Private:Pages:EditPage');
-		$this->addResource('Private:Pages:ComposedPage');
+		$this->addResource('Private:Pages:Compose');
 		$this->addResource('Private:Pages:UrlPage');
 	}
 
