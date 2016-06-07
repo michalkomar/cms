@@ -55,13 +55,13 @@ class Compose extends \Nette\Object
 				->getQuery()
 				->getResult(Query::HYDRATE_ARRAY);
 
-		$items_by_id = [];
+		$itemsById = [];
 
 		foreach ($items as $item) {
-			$items_by_id[$item['id']] = $item;
+			$itemsById[$item['id']] = $item;
 		}
 
-		foreach ($items_by_id as &$item)
+		foreach ($itemsById as &$item)
 		{
 			$params = [];
 
@@ -73,7 +73,7 @@ class Compose extends \Nette\Object
 			$item['params'] = $params;
 		}
 
-		return $items_by_id;
+		return $itemsById;
 	}
 
 	public function readPartParams($id)
