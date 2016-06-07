@@ -8,10 +8,10 @@
 {foreach $items as $item}
 	{var $current = null}
 	{if $iterator->counter > 1}
-		{if $depth < $item->getDepth(}
+		{if $depth < $item->getDepth()}
 			<ul class="dropdown-menu" role="menu">
 		{else}
-			{!"</li>\n</ul>\n"|repeat:($depth - $item->getDepth()}</li>
+			{"</li>\n</ul>\n"|noescape|repeat:($depth - $item->getDepth()}</li>
 		{/if}
 	{/if}
 
@@ -29,7 +29,7 @@
 
 	<li
 		n:class="isset($linkParams->class) ? $linkParams->class,
-				($item->getDepth( > 0) ? 'depth-'.$item->getDepth(,
+				($item->getDepth() > 0) ? 'depth-'.$item->getDepth(),
 				($item->rgt > $item->lft +1) ? 'dropdown',
 				$current ? $current
 		">
@@ -45,7 +45,7 @@
 				{$item->name}
 			</a>
 		{/if}
-		{var $depth = $item->getDepth(}
+		{var $depth = $item->getDepth()}
 	{/foreach}
 	{!"</li>\n</ul>"|repeat:($depth +1)}
 </ul>
