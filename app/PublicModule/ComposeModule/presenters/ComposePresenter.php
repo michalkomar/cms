@@ -34,12 +34,6 @@ final class ComposePresenter extends \App\PublicModule\Presenters\BasePresenter
 	public $logger;
 
 	/**
-	 * @var App\PublicModule\Component\IFullPageImageFactory
-	 * @inject
-	 */
-	public $fullPageImageFactory;
-
-	/**
 	 * @var array
 	 */
 	private $composeComponentFactories = [];

@@ -30,7 +30,8 @@
         "gedmo/doctrine-extensions": "^2.4.13",
         "rixxi/gedmo": "1.0.3",
         "kdyby/forms-replicator": "@dev",
-        "janmarek/webloader": "^2.5"
+        "janmarek/webloader": "^2.5",
+        "wundermanpraha/cms-fullpageimage": "dev-master"
     },
     "license": "GNU GPL v3",
     "authors": [
