@@ -74,7 +74,7 @@ final class ComposePresenter extends \App\PublicModule\Presenters\BasePresenter
 
 			if (!isset($this->composeComponentFactories[$type])) {
 				throw new \InvalidArgumentException(
-					"Component with name '71' and type [$type] does not exist."
+					"Component with type [$type] does not exist."
 				);
 			}
 
