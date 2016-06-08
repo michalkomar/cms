@@ -54,7 +54,7 @@ class FullPageImageExtension extends CompilerExtension
 		 */
 		$builder->getDefinition('publicComposePresenter')->addSetup(
 			'setComposeComponentFactory',
-			['fullPageImage', $this->prefix('@publicFullPageImageFactory')] // fullPageImage je identifikátor komponenty viz níže
+			['fullPageImage', $this->prefix('@publicFullPageImageFactory')] // fullPageImage je identifikátor komponenty (viz níže)
 		);
 		
 		// pridani komponenty pro privateComposePresenter
@@ -63,7 +63,7 @@ class FullPageImageExtension extends CompilerExtension
 		 */
 		$builder->getDefinition('privateComposePresenter')->addSetup(
 			'setComposeComponentFactory',
-			['fullPageImage', $this->prefix('@privateFullPageImageFactory')] // fullPageImage je identifikátor komponenty viz níže
+			['fullPageImage', $this->prefix('@privateFullPageImageFactory')] // fullPageImage je identifikátor komponenty (viz níže)
 		);
 	}
 }
@@ -89,7 +89,7 @@ v config.neon pro extension (zpracovává [composePresenter::registerExtensionsB
 parameters:
 	PrivateModule:
 		AddButtons:
-			fullPageImage: // identifikátor komponenty (viz níže)
+			fullPageImage: # identifikátor komponenty (viz níže)
 				text: 'Add full page image'
 				tooltip: ''
 ```
