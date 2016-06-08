@@ -24,7 +24,7 @@ class EditPagePresenter extends \App\PrivateModule\PrivatePresenter
 				$this->redirect(':Private:Pages:TextPage:edit', array('id' => $id));
 				break;
 			case 'Public:Compose:Compose':
-				$this->redirect(':Private:Pages:ComposedPage:edit', array('id' => $id));
+				$this->redirect(':Private:Pages:Compose:edit', array('id' => $id));
 				break;
 			case 'ExternalUrl':
 				$this->redirect(':Private:Pages:UrlPage:edit', array('id' => $id));

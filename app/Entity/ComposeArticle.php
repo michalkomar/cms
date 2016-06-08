@@ -62,8 +62,18 @@ class ComposeArticle extends \Kdyby\Doctrine\Entities\BaseEntity
 	public function getItems($status = 'ok')
 	{
 		$criteria = Criteria::create();
-		$criteria->where(Criteria::expr()->eq('status', $status))->orderBy(array('position' => 'ASC'));
 
-		return $this->items->matching($criteria);
+		$criteria->where(Criteria::expr()->eq('status', $status))
+			->orderBy(array('position' => 'ASC'));
+
+		$items = $this->items->matching($criteria);
+
+		$return = [];
+
+		foreach ($items as $item) {
+			$return[$item->getId()] = $item;
+		}
+
+		return $return;
 	}
 }

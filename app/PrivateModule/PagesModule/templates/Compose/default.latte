@@ -42,7 +42,7 @@
 
 		<div class="clearfix"></div>
 		<div n:ifset="$article" @n:snippet="items">
-			<div n:foreach="$article->getItems() as $item" style="margin-bottom: 15px; padding-bottom: 15px;" n:class="'row', (isset($editItemTemplate) && isset($editedItem) && $editedItem->id == $item->id) ? 'bg-info'">
+			<div n:foreach="$articleItems as $item" style="margin-bottom: 15px; padding-bottom: 15px;" n:class="'row', (isset($editItemTemplate) && isset($editedItem) && $editedItem->id == $item->id) ? 'bg-info'">
 				{if isset($editItemTemplate) && isset($editedItem) && $editedItem->id == $item->id}
 					<br>
 					<div class="col-lg-11">
@@ -69,7 +69,7 @@
 					<div class="col-lg-11">
 						{capture $id}{$item->getId()}{/capture}
 						<a href="#" onclick="copyToClipboard('/{$menuItem->url|noescape}#{$getParagraph($item)|noescape}');" class="fa fa-paragraph"></a> <code>/{$menuItem->url}#{$getParagraph($item)}</code>
-						{control componentWrapper-$id, $item}
+						{control $id, $item}
 					</div>
 					<div class="col-lg-1">
 						<a n:if="!$iterator->isFirst()" n:href="moveItemUp! item=>$item->getId()" class="btn btn-success ajax pull-right" data-toggle="tooltip" data-placement="left" title="Move up"><i class="fa fa-chevron-up"></i></a>

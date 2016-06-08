@@ -14,12 +14,13 @@ use Nette\InvalidArgumentException;
 use \Nette\Application\UI\Multiplier;
 use Nette\Utils\Arrays;
 use Nette\Utils\Json;
+use App\PrivateModule\ComposeModule\Exception\ComposePresenterExcetpion;
 
 /**
  * StandardPagePresenter
  * @author Petr Besir Horáček <sirbesir@gmail.com>
  */
-class ComposePresenter extends PagePresenter implements IPage
+final class ComposePresenter extends PagePresenter implements IPage
 {
 
 	const SESSION_SECTION = 'composedPageTmp';
@@ -54,6 +55,11 @@ class ComposePresenter extends PagePresenter implements IPage
 	/**
 	 * @var array
 	 */
+	private $aricleItems;
+
+	/**
+	 * @var array
+	 */
 	private $formDefaults = [];
 
 	/**
@@ -81,6 +87,17 @@ class ComposePresenter extends PagePresenter implements IPage
 	 * @var ComponentWrapperFactory
 	 */
 	public $componentsWrapperFactory;
+
+	/**
+	 * @var array
+	 */
+	private $composeComponentFactories = [];
+
+	/**
+	 * @var NULL|array
+	 */
+	private $articleItems = NULL;
+
 
 	/**
 	 * @param $addButtons
@@ -114,11 +131,15 @@ class ComposePresenter extends PagePresenter implements IPage
 
 		$params = \Nette\Utils\Json::decode($this->menuItem->getParams());
 		$this->composeArticle = $this->composeArticleRepository()->find($params->id);
+
 		if (is_null($this->composeArticle))
 		{
 			throw new InvalidArgumentException('Composed page not found for Menu Item '.$this->menuItem->getName());
 		}
+
+		$this->articleItems = $this->composeArticle->getItems();
 	}
+
 
 	/**
 	 * @param $id
@@ -137,6 +158,7 @@ class ComposePresenter extends PagePresenter implements IPage
 		];
 
 		$this->getTemplate()->article = $this->composeArticle;
+		$this->getTemplate()->articleItems = $this->articleItems;
 		$this->getTemplate()->menuItem = $this->menuItem;
 
 		$presenter = $this;
@@ -350,6 +372,44 @@ class ComposePresenter extends PagePresenter implements IPage
 			return $this->componentsWrapperFactory->create();
 		});
 	}
+
+
+	public function createComponent($name)
+	{
+		try {
+			list($article, $factory) = $this->getComposeComponentFactory($name);
+
+			return $factory->create($article->getParams());
+		} catch (ComposePresenterExcetpion $e) {
+			return parent::createComponent($name);
+		}
+	}
+
+
+	public function setComposeComponentFactory($name, $factory)
+	{
+		$this->composeComponentFactories[$name] = $factory;
+	}
+
+
+	private function getComposeComponentFactory($name)
+	{
+		if (is_numeric($name)) {
+			$id = (int) $name;
+			$type = $this->articleItems[$id]->getType();
+
+			if (!isset($this->composeComponentFactories[$type])) {
+				throw new \InvalidArgumentException(
+					"Component with type [$type] does not exist."
+				);
+			}
+
+			return [$this->articleItems[$id], $this->composeComponentFactories[$type]];
+		}
+
+		throw new ComposePresenterExcetpion;
+	}
+
 
 	/**
 	 * @param string $type
