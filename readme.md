@@ -1,3 +1,6 @@
+[Dokumentation] (/docs/cs/docs.md) (CZ)
+
+
 How to run project
 ==================
 
