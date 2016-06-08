@@ -187,7 +187,23 @@ public function getAnchor($item)
 }
 ```
 
+### Komplikovanější extensions
 
+Chtěli by jste komponentu u které není dost dobře možné, nebo by nebylo pohodlné spravovat její obsah z jednoho formuláře v ComposePage? **Nevadí!**
 
+Můžete vytvořit i komplikovanější část administrace, která bude samostatně stojící a její presenter bude v namespace `App\PrivateModule\FooModule\Presenter\BarPresenter`.
+
+K takto vytvořené části aplikaci uživatele navedeme jednoduše přidáním odkazu do levé části administrace nazvané "Page parts" a to přidáním do konfigu extension.
+
+```yaml
+parameters:
+	PrivateModule:
+		PagePartsButtons:
+			':Private:Foo:Bar:': # odkaz na příslušný presenter
+				text: 'My Awesome Extension' # jméno odkazu
+```
+
+### Identifikátor komponenty
+Jistě jste si v tutoriálu všimli, že je na pár místech napsáno `identifikátor komponenty`. O co jde? Je to konvenčně používané id komponenty napříč aplikací. Slouží ke správnému načtení service pro danou komponentu aby aplikace věděla kdo má data zpracovávat, jaký kontainer pro vytvoření, nebo úpravu záznamu má zobrazit apod. 
 
 
