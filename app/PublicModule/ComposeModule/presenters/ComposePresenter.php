@@ -5,7 +5,7 @@ namespace App\PublicModule\ComposeModule\Presenter;
 use App\PublicModule\ComposeModule\Component\ComponentWrapperFactory;
 use Nette;
 use App;
-use App\PublicModule\ComposeModule\Exception\ComposePresenterExcetpion;
+use App\PublicModule\ComposeModule\Exception\ComposePresenterException;
 
 final class ComposePresenter extends \App\PublicModule\Presenters\BasePresenter
 {
@@ -54,7 +54,7 @@ final class ComposePresenter extends \App\PublicModule\Presenters\BasePresenter
 	{
 		try {
 			return $this->getComposeComponentFactory($name)->create();
-		} catch (ComposePresenterExcetpion $e) {
+		} catch (ComposePresenterException $e) {
 			return parent::createComponent($name);
 		}
 	}
@@ -81,7 +81,7 @@ final class ComposePresenter extends \App\PublicModule\Presenters\BasePresenter
 			return $this->composeComponentFactories[$type];
 		}
 
-		throw new ComposePresenterExcetpion;
+		throw new ComposePresenterException;
 	}
 
 

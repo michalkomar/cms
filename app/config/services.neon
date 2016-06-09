@@ -1,0 +1,48 @@
+services:
+	# Compose Presenters
+	#
+	privateComposePresenter:
+		class: App\PrivateModule\PagesModule\Presenter\ComposePresenter(%PrivateModule.AddButtons%)
+	publicComposePresenter:
+		class: App\PublicModule\ComposeModule\Presenter\ComposePresenter
+
+
+	# Router
+	#
+	- App\RouterFactory
+	router: @App\RouterFactory::createRouter
+
+
+	# ACL
+	#
+	authenticator: DatabaseAuthenticator
+	authorizator: \Security\Acl
+
+
+	# Mailing
+	#
+	mail.mailer: \App\service\Mailer
+
+
+	# Forms
+	#
+	- App\PublicModule\Component\ContactUsFormFactory
+
+
+	# Components
+	#
+	tm: App\PublicModule\Component\GoogleTagManager(%googleTagManager%)
+	- App\PublicModule\ComposeModule\Component\ComponentWrapperFactory(%renderableComponents%)
+	- App\PrivateModule\PagesModule\Component\ComponentWrapperFactory(%renderableComponents%)
+	- App\PrivateModule\Components\MenuPageParts\MenuPagePartsFactory(%PrivateModule.PagePartsButtons%)
+
+
+	# Services
+	#
+	- App\ParametersFactory
+	- App\PrivateModule\UsersModule\Model\Service\Users
+	- App\PublicModule\TextModule\Model\Service\Text
+	- App\PublicModule\ComposeModule\Model\Service\Compose
+	- App\PrivateModule\BoxesModule\Model\Service\Boxes
+	- App\PrivateModule\CarouselModule\Model\Service\Carousel
+	- App\PrivateModule\AttachmentModule\Model\Service\Attachment

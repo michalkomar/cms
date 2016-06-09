@@ -31,7 +31,9 @@
         "rixxi/gedmo": "1.0.3",
         "kdyby/forms-replicator": "@dev",
         "janmarek/webloader": "^2.5",
-        "wundermanpraha/cms-fullpageimage": "dev-master"
+        
+        "wundermanpraha/cms-fullpageimage": "dev-master",
+        "wundermanpraha/cms-text": "dev-master"
     },
     "license": "GNU GPL v3",
     "authors": [

@@ -1,0 +1,21 @@
+extensions:
+	gedmo: Rixxi\Gedmo\DI\OrmExtension
+	console: Kdyby\Console\DI\ConsoleExtension
+	events: Kdyby\Events\DI\EventsExtension
+	annotations: Kdyby\Annotations\DI\AnnotationsExtension
+	doctrine: Kdyby\Doctrine\DI\OrmExtension
+	monolog: Wunderman\Monolog\DI\MonologExtension
+	webloader: WebLoader\Nette\Extension
+
+	# CMS
+	#
+	CMSText: Wunderman\CMS\Text\DI\TextExtension
+	CMSFullPageText: Wunderman\CMS\FullPageText
+	CMSFullPageImage: Wunderman\CMS\FullPageImage\DI\FullPageImageExtension
+	CMSForm: Wunderman\CMS\Form
+	CMSCarousel: Wunderman\CMS\Carousel
+	CMSBoxes: Wunderman\CMS\Boxes
+	CMSYouTubeVideo: Wunderman\CMS\YoutubeVideo
+	CMSThreeColumns: Wunderman\CMS\ThreeColumns
+	CMSFlatPhotogallery: Wunderman\CMS\FlatPhotoGallery
+	CMSFeeds: Wunderman\CMS\Feeds

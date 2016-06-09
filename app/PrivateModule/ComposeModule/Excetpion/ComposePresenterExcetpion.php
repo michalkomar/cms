@@ -2,6 +2,6 @@
 
 namespace App\PrivateModule\ComposeModule\Exception;
 
-class ComposePresenterExcetpion extends \Exception
+class ComposePresenterException extends \Exception
 {
 }

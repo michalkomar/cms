@@ -14,7 +14,7 @@ use Nette\InvalidArgumentException;
 use \Nette\Application\UI\Multiplier;
 use Nette\Utils\Arrays;
 use Nette\Utils\Json;
-use App\PrivateModule\ComposeModule\Exception\ComposePresenterExcetpion;
+use App\PrivateModule\ComposeModule\Exception\ComposePresenterException;
 
 /**
  * StandardPagePresenter
@@ -380,7 +380,7 @@ final class ComposePresenter extends PagePresenter implements IPage
 			list($article, $factory) = $this->getComposeComponentFactory($name);
 
 			return $factory->create($article->getParams());
-		} catch (ComposePresenterExcetpion $e) {
+		} catch (ComposePresenterException $e) {
 			return parent::createComponent($name);
 		}
 	}
@@ -407,7 +407,7 @@ final class ComposePresenter extends PagePresenter implements IPage
 			return [$this->articleItems[$id], $this->composeComponentFactories[$type]];
 		}
 
-		throw new ComposePresenterExcetpion;
+		throw new ComposePresenterException;
 	}
 
 
