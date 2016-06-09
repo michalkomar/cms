@@ -2,30 +2,17 @@
 
 namespace App\PublicModule\ComposeModule\Presenter;
 
-use App\PublicModule\ComposeModule\Component\ComponentWrapperFactory;
-use Nette;
 use App;
 use App\PublicModule\ComposeModule\Exception\ComposePresenterException;
 
-final class ComposePresenter extends \App\PublicModule\Presenters\BasePresenter
+final class ComposePresenter extends App\PublicModule\Presenters\BasePresenter
 {
-	/**
-	 * @inject
-	 * @var \Kdyby\Doctrine\EntityManager
-	 */
-	public $em;
 
 	/**
 	 * @inject
-	 * @var \App\PublicModule\ComposeModule\Model\Service\Compose
+	 * @var App\PublicModule\ComposeModule\Model\Service\Compose
 	 */
 	public $model;
-
-	/**
-	 * @inject
-	 * @var ComponentWrapperFactory
-	 */
-	public $componentWrapperFactory;
 
 	/**
 	 * @inject
