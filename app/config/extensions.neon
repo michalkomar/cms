@@ -10,7 +10,6 @@ extensions:
 	# CMS
 	#
 	CMSText: Wunderman\CMS\Text\DI\TextExtension
-	CMSFullPageText: Wunderman\CMS\FullPageText
 	CMSFullPageImage: Wunderman\CMS\FullPageImage\DI\FullPageImageExtension
 	CMSForm: Wunderman\CMS\Form
 	CMSCarousel: Wunderman\CMS\Carousel
