@@ -1,3 +1,5 @@
+[![Join the chat at https://gitter.im/wundermanpraha/cms](https://badges.gitter.im/wundermanpraha/cms.svg)](https://gitter.im/wundermanpraha/cms?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [Dokumentation] (/docs/cs/docs.md) (CZ)
 
 
