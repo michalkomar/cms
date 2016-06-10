@@ -1,7 +1,7 @@
 {block content}
 	<div class="content">
-		{foreach $pageParts as $part}
-			{control $part['id'], $part}
+		{foreach $composeArticleItems as $item}
+			{control $item['id'], $item['params']}
 		{/foreach}
 	</div>
 {/block}

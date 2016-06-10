@@ -42,7 +42,7 @@
 
 		<div class="clearfix"></div>
 		<div n:ifset="$article" @n:snippet="items">
-			<div n:foreach="$articleItems as $item" style="margin-bottom: 15px; padding-bottom: 15px;" n:class="'row', (isset($editItemTemplate) && isset($editedItem) && $editedItem->id == $item->id) ? 'bg-info'">
+			<div n:foreach="$composeArticleItems as $item" style="margin-bottom: 15px; padding-bottom: 15px;" n:class="'row', (isset($editItemTemplate) && isset($editedItem) && $editedItem->id == $item->id) ? 'bg-info'">
 				{if isset($editItemTemplate) && isset($editedItem) && $editedItem->id == $item->id}
 					<br>
 					<div class="col-lg-11">

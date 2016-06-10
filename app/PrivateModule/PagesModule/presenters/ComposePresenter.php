@@ -55,11 +55,6 @@ final class ComposePresenter extends PagePresenter implements IPage
 	/**
 	 * @var array
 	 */
-	private $aricleItems;
-
-	/**
-	 * @var array
-	 */
 	private $formDefaults = [];
 
 	/**
@@ -96,7 +91,7 @@ final class ComposePresenter extends PagePresenter implements IPage
 	/**
 	 * @var NULL|array
 	 */
-	private $articleItems = NULL;
+	private $composeArticleItems = NULL;
 
 
 	/**
@@ -137,7 +132,7 @@ final class ComposePresenter extends PagePresenter implements IPage
 			throw new InvalidArgumentException('Composed page not found for Menu Item '.$this->menuItem->getName());
 		}
 
-		$this->articleItems = $this->composeArticle->getItems();
+		$this->composeArticleItems = $this->composeArticle->getItems();
 	}
 
 
@@ -158,7 +153,7 @@ final class ComposePresenter extends PagePresenter implements IPage
 		];
 
 		$this->getTemplate()->article = $this->composeArticle;
-		$this->getTemplate()->articleItems = $this->articleItems;
+		$this->getTemplate()->composeArticleItems = $this->composeArticleItems;
 		$this->getTemplate()->menuItem = $this->menuItem;
 
 		$presenter = $this;
@@ -396,7 +391,7 @@ final class ComposePresenter extends PagePresenter implements IPage
 	{
 		if (is_numeric($name)) {
 			$id = (int) $name;
-			$type = $this->articleItems[$id]->getType();
+			$type = $this->composeArticleItems[$id]->getType();
 
 			if (!isset($this->composeComponentFactories[$type])) {
 				throw new \InvalidArgumentException(
@@ -404,7 +399,7 @@ final class ComposePresenter extends PagePresenter implements IPage
 				);
 			}
 
-			return [$this->articleItems[$id], $this->composeComponentFactories[$type]];
+			return [$this->composeArticleItems[$id], $this->composeComponentFactories[$type]];
 		}
 
 		throw new ComposePresenterException;

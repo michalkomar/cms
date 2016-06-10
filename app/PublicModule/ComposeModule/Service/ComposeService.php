@@ -1,6 +1,13 @@
 <?php
 
-namespace App\PublicModule\ComposeModule\Model\Service;
+/**
+ * @copyright   Copyright (c) 2016 Wunderman s.r.o. <wundermanprague@wunwork.cz>
+ * @author      Petr Besir Horáček <sirbesir@gmail.com>
+ * @package     App
+ */
+
+namespace App\PublicModule\ComposeModule\Service;
+
 use App\Entity\InvalidUserException;
 use App\Entity\NoCompanyException;
 use Doctrine\ORM\Query;
@@ -9,11 +16,7 @@ use Kdyby\Doctrine\EntityManager;
 use Nette\InvalidArgumentException;
 use Nette\Security\User;
 
-/**
- * Users service
- * @author Petr Horacek <petr.horacek@wunderman.cz>
- */
-class Compose extends \Nette\Object
+class ComposeService extends \Nette\Object
 {
 
 	/**

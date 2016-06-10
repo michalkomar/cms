@@ -10,15 +10,9 @@ final class ComposePresenter extends App\PublicModule\Presenters\BasePresenter
 
 	/**
 	 * @inject
-	 * @var App\PublicModule\ComposeModule\Model\Service\Compose
+	 * @var App\PublicModule\ComposeModule\Service\ComposeService
 	 */
-	public $model;
-
-	/**
-	 * @inject
-	 * @var \Tracy\ILogger
-	 */
-	public $logger;
+	public $composeService;
 
 	/**
 	 * @var array
@@ -28,12 +22,12 @@ final class ComposePresenter extends App\PublicModule\Presenters\BasePresenter
 	/**
 	 * @var NULL|array
 	 */
-	private $pageParts = NULL;
+	private $composeArticleItems = NULL;
 
 
 	public function renderDefault($id)
 	{
-		$this->getTemplate()->pageParts = $this->getPageParts($id);
+		$this->getTemplate()->composeArticleItems = $this->getComposeArticleItems($id);
 	}
 
 
@@ -57,7 +51,7 @@ final class ComposePresenter extends App\PublicModule\Presenters\BasePresenter
 	{
 		if (is_numeric($name)) {
 			$id = (int) $name;
-			$type = $this->pageParts[$id]['type'];
+			$type = $this->composeArticleItems[$id]['type'];
 
 			if (!isset($this->composeComponentFactories[$type])) {
 				throw new \InvalidArgumentException(
@@ -77,13 +71,13 @@ final class ComposePresenter extends App\PublicModule\Presenters\BasePresenter
 	 * @param  int $id
 	 * @return array
 	 */
-	private function getPageParts($id)
+	private function getComposeArticleItems($id)
 	{
-		if (NULL === $this->pageParts) {
-			$this->pageParts = $this->model->readArticleParts($id);
+		if (NULL === $this->composeArticleItems) {
+			$this->composeArticleItems = $this->composeService->readArticleParts($id);
 		}
 
-		return $this->pageParts;
+		return $this->composeArticleItems;
 	}
 
 }
