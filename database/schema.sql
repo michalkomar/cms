@@ -16,68 +16,6 @@ CREATE TABLE `attachment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-DROP TABLE IF EXISTS `box`;
-CREATE TABLE `box` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) CHARACTER SET utf8 COLLATE utf8_czech_ci NOT NULL,
-  `status` enum('ok','del') CHARACTER SET utf8 COLLATE utf8_czech_ci NOT NULL DEFAULT 'ok',
-  `show_filters` int(1) NOT NULL DEFAULT '1',
-  `show_navigation` int(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-DROP TABLE IF EXISTS `box_item`;
-CREATE TABLE `box_item` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `box_id` int(11) NOT NULL,
-  `attachment_id` int(11) DEFAULT NULL,
-  `color` varchar(6) DEFAULT NULL,
-  `detail_color` varchar(6) DEFAULT NULL,
-  `text` text CHARACTER SET utf8 COLLATE utf8_czech_ci,
-  `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_czech_ci DEFAULT NULL,
-  `secondtitle` varchar(255) CHARACTER SET utf8 COLLATE utf8_czech_ci DEFAULT NULL,
-  `category` varchar(150) CHARACTER SET utf8 COLLATE utf8_czech_ci DEFAULT NULL,
-  `position` int(3) DEFAULT NULL,
-  `status` enum('ok','del') NOT NULL DEFAULT 'ok',
-  PRIMARY KEY (`id`),
-  KEY `attachment_id` (`attachment_id`),
-  KEY `box_id` (`box_id`),
-  CONSTRAINT `box_item_ibfk_3` FOREIGN KEY (`attachment_id`) REFERENCES `attachment` (`id`),
-  CONSTRAINT `box_item_ibfk_4` FOREIGN KEY (`box_id`) REFERENCES `box` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-DROP TABLE IF EXISTS `carousel`;
-CREATE TABLE `carousel` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) CHARACTER SET utf8 COLLATE utf8_czech_ci NOT NULL,
-  `status` enum('ok','del') CHARACTER SET utf8 COLLATE utf8_czech_ci NOT NULL DEFAULT 'ok',
-  `show_navigation` int(1) NOT NULL DEFAULT '1',
-  `show_header` int(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-DROP TABLE IF EXISTS `carousel_item`;
-CREATE TABLE `carousel_item` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `carousel_id` int(11) NOT NULL,
-  `attachment_id` int(11) DEFAULT NULL,
-  `text` text CHARACTER SET utf8 COLLATE utf8_czech_ci,
-  `text2` varchar(255) CHARACTER SET utf8 COLLATE utf8_czech_ci DEFAULT NULL,
-  `link` varchar(255) CHARACTER SET utf8 COLLATE utf8_czech_ci DEFAULT NULL,
-  `link_text` varchar(255) CHARACTER SET utf8 COLLATE utf8_czech_ci DEFAULT NULL,
-  `position` int(3) DEFAULT NULL,
-  `status` enum('ok','del') NOT NULL DEFAULT 'ok',
-  PRIMARY KEY (`id`),
-  KEY `attachment_id` (`attachment_id`),
-  KEY `carousel_id` (`carousel_id`),
-  CONSTRAINT `carousel_item_ibfk_3` FOREIGN KEY (`attachment_id`) REFERENCES `attachment` (`id`),
-  CONSTRAINT `carousel_item_ibfk_4` FOREIGN KEY (`carousel_id`) REFERENCES `carousel` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
 DROP TABLE IF EXISTS `compose_article`;
 CREATE TABLE `compose_article` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -90,6 +28,8 @@ CREATE TABLE `compose_article` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+INSERT INTO `compose_article` (`id`, `title`, `keywords`, `description`, `content`, `notes`, `status`) VALUES
+(1,	'My First Page',	'',	'',	NULL,	NULL,	'ok');
 
 DROP TABLE IF EXISTS `compose_article_item`;
 CREATE TABLE `compose_article_item` (
@@ -116,59 +56,6 @@ CREATE TABLE `compose_article_item_param` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-DROP TABLE IF EXISTS `feed_item`;
-CREATE TABLE `feed_item` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `type` varchar(20) NOT NULL,
-  `datetime` datetime NOT NULL,
-  `header` varchar(250) CHARACTER SET utf8 COLLATE utf8_czech_ci NOT NULL,
-  `perex` varchar(500) CHARACTER SET utf8 COLLATE utf8_czech_ci NOT NULL,
-  `detail` varchar(500) NOT NULL,
-  `feed_item_id` varchar(32) NOT NULL,
-  `status` varchar(10) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `type_feed_item_id` (`type`,`feed_item_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-DROP TABLE IF EXISTS `flat_photo_gallery`;
-CREATE TABLE `flat_photo_gallery` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) CHARACTER SET utf8 COLLATE utf8_czech_ci NOT NULL,
-  `status` enum('ok','del') CHARACTER SET utf8 COLLATE utf8_czech_ci NOT NULL DEFAULT 'ok',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-DROP TABLE IF EXISTS `flat_photo_gallery_item`;
-CREATE TABLE `flat_photo_gallery_item` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `flat_photo_gallery_id` int(11) NOT NULL,
-  `attachment_id` int(11) NOT NULL,
-  `text` text CHARACTER SET utf8 COLLATE utf8_czech_ci,
-  `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_czech_ci DEFAULT NULL,
-  `position` int(3) DEFAULT NULL,
-  `status` enum('ok','del') NOT NULL DEFAULT 'ok',
-  PRIMARY KEY (`id`),
-  KEY `attachment_id` (`attachment_id`),
-  KEY `flat_photo_gallery_id` (`flat_photo_gallery_id`),
-  CONSTRAINT `flat_photo_gallery_item_ibfk_3` FOREIGN KEY (`attachment_id`) REFERENCES `attachment` (`id`),
-  CONSTRAINT `flat_photo_gallery_item_ibfk_4` FOREIGN KEY (`flat_photo_gallery_id`) REFERENCES `flat_photo_gallery` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-DROP TABLE IF EXISTS `full_page_text`;
-CREATE TABLE `full_page_text` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `link_text` varchar(150) NOT NULL,
-  `link` varchar(250) NOT NULL,
-  `bg_color` varchar(7) NOT NULL,
-  `content` text CHARACTER SET utf8 COLLATE utf8_czech_ci NOT NULL,
-  `status` enum('ok','del') NOT NULL DEFAULT 'ok',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
 DROP TABLE IF EXISTS `menu`;
 CREATE TABLE `menu` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -178,6 +65,8 @@ CREATE TABLE `menu` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+INSERT INTO `menu` (`id`, `name`, `published`, `status`) VALUES
+(1,	'MainMenu',	1,	'ok');
 
 DROP TABLE IF EXISTS `menu_item`;
 CREATE TABLE `menu_item` (
@@ -207,6 +96,8 @@ CREATE TABLE `menu_item` (
   CONSTRAINT `menu_item_ibfk_2` FOREIGN KEY (`parent_id`) REFERENCES `menu_item` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+INSERT INTO `menu_item` (`id`, `name`, `presenter`, `action`, `params`, `options`, `url`, `homepage`, `lft`, `rgt`, `depth`, `parent_id`, `published`, `secured`, `target`, `menu_id`, `status`) VALUES
+(1,	'My First Page',	'Public:Compose:Compose',	'default',	'{\"id\":1}',	NULL,	'my-first-page',	1,	1,	2,	0,	NULL,	1,	0,	'_self',	1,	'ok');
 
 DROP TABLE IF EXISTS `text_article`;
 CREATE TABLE `text_article` (
@@ -275,6 +166,6 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `user` (`id`, `identity_no`, `username`, `password`, `name`, `surname`, `phone`, `email`, `organization_id`, `role`, `status`) VALUES
-(1,	'KHOHOHOIHIOhiohoHOHIUOIhoHIIOHOHOHOhoHOH',	'root',	'$2a$07$2kkmkh73splfeh79fh8obedQxrK8FFqyIvWUEz2BrVfTgMXW.ObSa',	'Petr',	'Horáček',	'728514123',	'petr.horacek@wunderman.cz',	NULL,	'admin',	'ok');
+(1,	'KHOHOHOIHIOhiohoHOHIUOIhoHIIOHOHOHOhoHOH',	'root',	'$2a$07$2kkmkh73splfeh79fh8obedQxrK8FFqyIvWUEz2BrVfTgMXW.ObSa',	'Admin',	'Istrator',	'',	'email@example.com',	NULL,	'admin',	'ok');
 
--- 2016-06-10 00:06:39
+-- 2016-06-16 07:13:31
