@@ -43,7 +43,4 @@ services:
 	- App\PublicModule\ComposeModule\Service\ComposeService
 
 	- App\PrivateModule\UsersModule\Model\Service\Users
-	- App\PublicModule\TextModule\Model\Service\Text
-	- App\PrivateModule\BoxesModule\Model\Service\Boxes
-	- App\PrivateModule\CarouselModule\Model\Service\Carousel
 	- App\PrivateModule\AttachmentModule\Model\Service\Attachment

@@ -6,13 +6,3 @@ extensions:
 	doctrine: Kdyby\Doctrine\DI\OrmExtension
 	monolog: Wunderman\Monolog\DI\MonologExtension
 	webloader: WebLoader\Nette\Extension
-
-	# CMS
-	#
-	CMSForm: Wunderman\CMS\Form
-	CMSCarousel: Wunderman\CMS\Carousel
-	CMSBoxes: Wunderman\CMS\Boxes
-	CMSYouTubeVideo: Wunderman\CMS\YoutubeVideo
-	CMSThreeColumns: Wunderman\CMS\ThreeColumns
-	CMSFlatPhotogallery: Wunderman\CMS\FlatPhotoGallery
-	CMSFeeds: Wunderman\CMS\Feeds

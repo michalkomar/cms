@@ -89,10 +89,3 @@ webloader:
 	js:
 		public:
 			files:
-
-CMSFeeds:
-	feeds:
-		wordpress: http://changeme.com/feed/
-		linkedin:
-			accessToken:
-			url:
