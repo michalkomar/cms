@@ -5,6 +5,7 @@ use App\Entity\MenuItem;
 use App\Entity\TextArticle;
 use Nette\Application\UI\Form;
 use Nette\Forms\Controls\SubmitButton;
+use Nette\Utils\ArrayHash;
 
 /**
  * StandardPagePresenter
@@ -145,11 +146,11 @@ class TextPagePresenter extends PagePresenter
 
 	/**
 	 * Update current opened page
-	 * @param $values
+	 * @param Form      $form
+	 * @param ArrayHash $values
 	 *
-	 * @throws \Doctrine\ORM\ORMException
 	 */
-	public function editPage($values)
+	public function editPage(Form $form, ArrayHash $values)
 	{
 		$this->menuItem
 			->setPublished($values['published'])
@@ -169,12 +170,12 @@ class TextPagePresenter extends PagePresenter
 
 	/**
 	 * Create new page
-	 * @param $values
+	 * @param Form      $form
+	 * @param ArrayHash $values
 	 *
-	 * @throws \Doctrine\ORM\ORMException
 	 * @throws \Nette\Utils\JsonException
 	 */
-	public function createPage($values)
+	public function createPage(Form $form, ArrayHash $values)
 	{
 		$this->em->beginTransaction();
 		$this->textArticle = new TextArticle();
