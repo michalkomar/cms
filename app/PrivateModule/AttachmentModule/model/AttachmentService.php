@@ -1,14 +1,14 @@
 <?php
 
 namespace App\PrivateModule\AttachmentModule\Model\Service;
+
 use App\ParametersFactory;
 use Tracy\ILogger;
 
 /**
- * Task service
  * @author Petr Besir Horáček <sirbesir@gmail.com>
  */
-class Attachment extends \Nette\Object
+class AttachmentService extends \Nette\Object
 {
 
 	/** @var \Kdyby\Doctrine\EntityManager $entityManager */
