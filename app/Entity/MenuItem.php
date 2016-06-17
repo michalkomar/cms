@@ -14,7 +14,7 @@ use Nette\Utils\Json;
  */
 class MenuItem extends \Kdyby\Doctrine\Entities\BaseEntity
 {
-	/**
+    /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
@@ -107,8 +107,7 @@ class MenuItem extends \Kdyby\Doctrine\Entities\BaseEntity
      */
     protected $target = '_self';
 
-
-    public function getEncodedParams($decode = FALSE)
+    public function getEncodedParams($decode = false)
     {
         if ($decode) {
             return Json::decode($this->params, Json::FORCE_ARRAY);
@@ -117,24 +116,90 @@ class MenuItem extends \Kdyby\Doctrine\Entities\BaseEntity
         return $this->params;
     }
 
-
     public function getPresenter()
     {
         return $this->presenter;
     }
 
+    public function getAction()
+    {
+        return $this->action;
+    }
+
+    public function getParams()
+    {
+        return $this->params;
+    }
+
+    public function getHomepage()
+    {
+        return $this->homepage;
+    }
+
+    public function getRgt()
+    {
+        return $this->rgt;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    public function getLft()
+    {
+        return $this->lft;
+    }
+
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    public function getPublished()
+    {
+        return $this->published;
+    }
+
+    public function getMenu()
+    {
+        return $this->menu;
+    }
+
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    public function getTarget()
+    {
+        return $this->target;
+    }
 
     public function getUrl()
     {
         return $this->url;
     }
 
-
     public function getDepth()
     {
         return $this->depth;
     }
-
 
     public function delete()
     {
