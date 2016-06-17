@@ -1,6 +1,6 @@
 parameters:
 	sentry:
-		dsn: 'https://<key>:<secret>@app.getsentry.com/<project>'
+		dsn: ''
 		settings:
 			trace: true
 	https: true
