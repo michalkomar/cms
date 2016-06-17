@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Table;
-use Kdyby\DoctrineCache\Exception;
 
 /**
  * @ORM\Entity
@@ -14,21 +13,22 @@ use Kdyby\DoctrineCache\Exception;
 class UserActivity extends \Kdyby\Doctrine\Entities\BaseEntity
 {
 
-	public function __construct(\Nette\Security\User $user, \Kdyby\Doctrine\EntityManager $em, \Nette\Http\Request $request)
-	{
+	public function __construct(
+		\Nette\Security\User $user,
+		\Kdyby\Doctrine\EntityManager $em,
+		\Nette\Http\Request $request
+	) {
 		$userRepository = $em->getRepository('\App\Entity\User');
 
 		$this->setIp($request->getRemoteAddress());
 		$this->setDatetime(new \DateTime());
 		$this->setPost(\Nette\Utils\Json::encode($request->getPost()));
-		$this->setGet($_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"]);
+		$this->setGet($_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"]);
 
-		if ($user->isLoggedIn())
-		{
+		if ($user->isLoggedIn()) {
 			$this->setUser($userRepository->find($user->getId()));
 		}
 	}
-
 
 	/**
 	 * @ORM\Id
@@ -40,7 +40,7 @@ class UserActivity extends \Kdyby\Doctrine\Entities\BaseEntity
 	/**
 	 * @ORM\OneToOne(targetEntity="User")
 	 */
-	protected $user = null;
+	protected $user;
 
 	/**
 	 * @ORM\Column(type="string")
@@ -72,7 +72,7 @@ class UserActivity extends \Kdyby\Doctrine\Entities\BaseEntity
 	}
 
 	/**
-	 * @return mixed
+	 * @return User|null
 	 */
 	public function getUser()
 	{
@@ -112,23 +112,20 @@ class UserActivity extends \Kdyby\Doctrine\Entities\BaseEntity
 	}
 
 	/**
-	 * @param mixed $user
+	 * ************************************* Setters ***************************************
 	 */
-	public function setUser($user)
+
+	/**
+	 * @param User|null $user
+	 * @return $this
+	 */
+	public function setUser(User $user = NULL)
 	{
 		$this->user = $user;
 
 		return $this;
 	}
 
-
-	/**
-	 * ************************************* Setters ***************************************
-	 */
-
-	/**
-	 * @param mixed $ip
-	 */
 	public function setIp($ip)
 	{
 		$this->ip = $ip;
@@ -137,18 +134,16 @@ class UserActivity extends \Kdyby\Doctrine\Entities\BaseEntity
 	}
 
 	/**
-	 * @param mixed $datetime
+	 * @param \DateTime|NULL $datetime
+	 * @return $this
 	 */
-	public function setDatetime($datetime)
+	public function setDatetime(\DateTime $datetime = NULL)
 	{
 		$this->datetime = $datetime;
 
 		return $this;
 	}
 
-	/**
-	 * @param mixed $get
-	 */
 	public function setGet($get)
 	{
 		$this->get = $get;
@@ -156,15 +151,11 @@ class UserActivity extends \Kdyby\Doctrine\Entities\BaseEntity
 		return $this;
 	}
 
-	/**
-	 * @param mixed $post
-	 */
 	public function setPost($post)
 	{
 		$this->post = $post;
 
 		return $this;
 	}
-
 
 }

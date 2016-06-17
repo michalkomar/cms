@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Table;
-use Kdyby\DoctrineCache\Exception;
 
 /**
  * @ORM\Entity
@@ -13,10 +13,6 @@ use Kdyby\DoctrineCache\Exception;
  */
 class User extends \Kdyby\Doctrine\Entities\BaseEntity
 {
-
-	public function __construct(){
-		$this->districts = new \Doctrine\Common\Collections\ArrayCollection();
-	}
 
 	/**
 	 * @ORM\Id
@@ -64,6 +60,16 @@ class User extends \Kdyby\Doctrine\Entities\BaseEntity
 	 * @ORM\Column(type="string")
 	 */
 	protected $status = 'ok';
+
+	/**
+	 * @var ArrayCollection
+	 */
+	protected $districts;
+
+	public function __construct()
+	{
+		$this->districts = new ArrayCollection();
+	}
 
 	/**
 	 * ************************************* Getters ***************************************
@@ -117,11 +123,19 @@ class User extends \Kdyby\Doctrine\Entities\BaseEntity
 		return $this->status;
 	}
 
+	/**
+	 * @return ArrayCollection
+	 */
+	public function getDistricts()
+	{
+		return $this->districts;
+	}
+
+
 
 	/**
 	 * ************************************* Setters ***************************************
 	 */
-
 
 	/**
 	 * @param mixed $identityNo
@@ -182,12 +196,12 @@ class User extends \Kdyby\Doctrine\Entities\BaseEntity
 
 	public function isOk()
 	{
-		return $this->status === 'ok' ? true : false;
+		return $this->status === 'ok' ? TRUE : FALSE;
 	}
 
 	public function isDel()
 	{
-		return $this->status === 'del' ? true : false;
+		return $this->status === 'del' ? TRUE : FALSE;
 	}
 
 	/**
@@ -197,8 +211,9 @@ class User extends \Kdyby\Doctrine\Entities\BaseEntity
 	 */
 	public function generateNewPassword()
 	{
-		$specialChars = substr(str_shuffle('!"#$%&()*+,.-/:<=>?_'), 0, rand(1,2));
-		$password = str_shuffle(substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8 - strlen($specialChars)).$specialChars);
+		$specialChars = substr(str_shuffle('!"#$%&()*+,.-/:<=>?_'), 0, rand(1, 2));
+		$password = str_shuffle(substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0,
+				8 - strlen($specialChars)) . $specialChars);
 		$this->setPassword($password);
 		return $password;
 	}
@@ -219,4 +234,8 @@ class User extends \Kdyby\Doctrine\Entities\BaseEntity
 
 }
 
-class InvalidUserException extends \Exception{};
+class InvalidUserException extends \Exception
+{
+}
+
+;

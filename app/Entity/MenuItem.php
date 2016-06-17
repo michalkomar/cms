@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Nette\Utils\Json;
@@ -161,11 +162,17 @@ class MenuItem extends \Kdyby\Doctrine\Entities\BaseEntity
         return $this->lft;
     }
 
+    /**
+     * @return MenuItem|null
+     */
     public function getParent()
     {
         return $this->parent;
     }
 
+    /**
+     * @return ArrayCollection|MenuItem[]
+     */
     public function getChildren()
     {
         return $this->children;
@@ -176,6 +183,9 @@ class MenuItem extends \Kdyby\Doctrine\Entities\BaseEntity
         return $this->published;
     }
 
+    /**
+     * @return Menu
+     */
     public function getMenu()
     {
         return $this->menu;
