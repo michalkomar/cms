@@ -12,6 +12,7 @@ use Nette\Application\UI\Form;
 use Nette\Forms\Controls\SubmitButton;
 use Nette\InvalidArgumentException;
 use \Nette\Application\UI\Multiplier;
+use Nette\Utils\ArrayHash;
 use Nette\Utils\Arrays;
 use Nette\Utils\Json;
 use App\PrivateModule\ComposeModule\Exception\ComposePresenterException;
@@ -429,11 +430,11 @@ final class ComposePresenter extends PagePresenter implements IPage
 		try {
 			if ($this->getAction() === 'edit')
 			{
-				$this->editPage($form->getValues());
+				$this->editPage($form, $form->getValues());
 			}
 			elseif ($this->getAction() === 'default')
 			{
-				$this->createPage($form->getValues());
+				$this->createPage($form, $form->getValues());
 			}
 
 			$this->getPresenter()->flashMessage('Page was saved.', 'success');
@@ -460,7 +461,7 @@ final class ComposePresenter extends PagePresenter implements IPage
 	 *
 	 * @throws \Doctrine\ORM\ORMException
 	 */
-	public function editPage($values)
+	public function editPage(Form $form, ArrayHash $values)
 	{
 		$this->em->beginTransaction();
 
@@ -472,12 +473,12 @@ final class ComposePresenter extends PagePresenter implements IPage
 		if (! $container = $this->getHttpRequest()->getPost(ComposedPageExtension::ITEM_CONTAINER, false) OR Arrays::get($container, 'itemId', FALSE) === '' )
 		{
 			// 2. Create new item for page
-			$this->saveNewItem($this->composeArticle, $values);
+			$this->saveNewItem($this->composeArticle, $form, $values);
 		}
 		else
 		{
 			// 3. Edit page item
-			$this->editPageItem($this->getHttpRequest()->getPost(ComposedPageExtension::ITEM_CONTAINER, false));
+			$this->editPageItem($form, $form->getValues()[ComposedPageExtension::ITEM_CONTAINER]);
 		}
 
 
@@ -508,7 +509,7 @@ final class ComposePresenter extends PagePresenter implements IPage
 	 * @throws \Doctrine\ORM\ORMException
 	 * @throws \Nette\Utils\JsonException
 	 */
-	public function createPage($values)
+	public function createPage(Form $form, ArrayHash $values)
 	{
 		$this->em->beginTransaction();
 
@@ -520,7 +521,7 @@ final class ComposePresenter extends PagePresenter implements IPage
 		$this->em->persist($composeArticle)->flush();
 
 		// 2. Create new item for page
-		$this->saveNewItem($composeArticle, $values);
+		$this->saveNewItem($composeArticle, $form, $values);
 
 		// 3. last Create menu_item
 		$menuItemParams = ['id' => $composeArticle->id];
@@ -553,12 +554,12 @@ final class ComposePresenter extends PagePresenter implements IPage
 	 * @param ComposeArticle $composeArticle
 	 * @param $values
 	 */
-	public function saveNewItem(ComposeArticle $composeArticle, $values)
+	public function saveNewItem(ComposeArticle $composeArticle, Form $form, $values)
 	{
 		$service = $this->getService();
 		if ($service && isset($values[$service::ITEM_CONTAINER]))
 		{
-			$params = $service->processNew($values[$service::ITEM_CONTAINER]);
+			$params = $service->processNew($form, $values[$service::ITEM_CONTAINER]);
 
 			// 1. Create compose_article_item
 			$composeArticleItem = new ComposeArticleItem();
@@ -579,7 +580,7 @@ final class ComposePresenter extends PagePresenter implements IPage
 	/**
 	 * @param array $values
 	 */
-	private function editPageItem($values)
+	private function editPageItem(Form $form, ArrayHash $values)
 	{
 		$service = $this->getService();
 		if ($values && $service)
@@ -595,7 +596,7 @@ final class ComposePresenter extends PagePresenter implements IPage
 				$params[$param->name] = $param->value;
 			}
 
-			$newParams = $service->processEdit($values, $params);
+			$newParams = $service->processEdit($form, $values, $params);
 			$params = array_merge($params, $newParams);
 
 			foreach ($params as $key => $paramValue) {

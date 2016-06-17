@@ -5,6 +5,7 @@ use App\Entity\MenuItem;
 use Nette\Application\UI\Form;
 use Nette\Forms\Controls\SubmitButton;
 use Nette\InvalidArgumentException;
+use Nette\Utils\ArrayHash;
 
 class PagePresenter extends \App\PrivateModule\PrivatePresenter implements IPage
 {
@@ -173,14 +174,14 @@ class PagePresenter extends \App\PrivateModule\PrivatePresenter implements IPage
 	/**
 	 * Update current opened page
 	 */
-	public function editPage($values)
+	public function editPage(Form $form, ArrayHash $values)
 	{
 	}
 
 	/**
 	 * Create new page
 	 */
-	public function createPage($values)
+	public function createPage(Form $form, ArrayHash $values)
 	{
 	}
 

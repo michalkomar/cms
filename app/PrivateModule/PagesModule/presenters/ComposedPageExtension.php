@@ -11,6 +11,7 @@
 
 	use Nette\Application\UI\Form;
 	use Nette\Application\UI\Presenter;
+	use Nette\Utils\ArrayHash;
 
 	interface ComposedPageExtension
 	{
@@ -40,7 +41,7 @@
 		 *
 		 * @return array Associated array in pair [ propertyName => value ] for store to the database
 		 */
-		public function processNew($values);
+		public function processNew(Form $form, ArrayHash $values);
 
 		/**
 		 * Editing current edited item,
@@ -50,7 +51,7 @@
 		 *
 		 * @return array
 		 */
-		public function processEdit($values, $itemParams);
+		public function processEdit(Form $form, ArrayHash $values, $itemParams);
 
 		/**
 		 * Compute anchor for item on the page
