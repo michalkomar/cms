@@ -16,6 +16,7 @@ use Nette\Utils\ArrayHash;
 use Nette\Utils\Arrays;
 use Nette\Utils\Json;
 use App\PrivateModule\ComposeModule\Exception\ComposePresenterException;
+use Nette;
 
 /**
  * StandardPagePresenter
@@ -250,9 +251,9 @@ final class ComposePresenter extends PagePresenter implements IPage
 	 * Creating page form
 	 * @return Form
 	 */
-	public function createComponentPageForm()
+	public function createComponentPageForm($name)
 	{
-		$this->form = $this->createBaseForm();
+		$this->form = $this->createBaseForm($name);
 
 		$this->registerExtensionsButtons();
 

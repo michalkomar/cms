@@ -1,8 +1,10 @@
 <?php
 
 namespace App\PrivateModule;
+
 use App\PrivateModule\Component\PagesTree;
 use App\PrivateModule\Component\Wysiwyg;
+use App\PrivateModule\AttachmentModule\Model\Service\AttachmentService;
 
 /**
  * PrivatePresenter
@@ -19,7 +21,7 @@ class PrivatePresenter extends \App\Presenters\SecuredPresenter
 
 	/**
 	 * @inject
-	 * @var \App\PrivateModule\AttachmentModule\Model\Service\Attachment
+	 * @var AttachmentService
 	 */
 	public $attachmentService;
 
