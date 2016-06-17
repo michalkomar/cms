@@ -44,6 +44,8 @@ class RouterFactory
 
 		$public[] = new Route('/cron/<module>/<presenter>[/<action>]', [], Route::ONE_WAY);
 
+		$router[] = new Route('administration/lost-password', 'Private:Users:LostPassword:default');
+
 		$admin[] = new Route('administration/<module>/<presenter>[/<action>][/<id>]',
 			[
 				'module' => 'Dashboard',
@@ -66,10 +68,6 @@ class RouterFactory
 		$databaseAppRoute->injectMenuItemDao($this->menuItemRepository);
 
 		$router[] = $admin;
-
-		$router[] = new Route('registrace', 'Public:User:Register:default');
-		$router[] = new Route('zapomenute-heslo', 'Public:User:LostPassword:default');
-		$router[] = new Route('zapomenute-heslo/nove-heslo', 'Public:User:LostPassword:reset');
 
 		$router[] = $public;
 		$router[] = $databaseUriRoute;
