@@ -40,9 +40,9 @@ class PagePresenter extends \App\PrivateModule\PrivatePresenter implements IPage
 	 */
 	private $form;
 
-	public function createBaseForm()
+	public function createBaseForm($name)
 	{
-		$form = new Form();
+		$form = new Form($this, $name);
 
 		$form->addText('name', 'Name')
 			->setRequired('Fill Page settings -> name');

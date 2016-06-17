@@ -249,9 +249,9 @@ final class ComposePresenter extends PagePresenter implements IPage
 	 * Creating page form
 	 * @return Form
 	 */
-	public function createComponentPageForm()
+	public function createComponentPageForm($name)
 	{
-		$this->form = $this->createBaseForm();
+		$this->form = $this->createBaseForm($name);
 
 		$this->registerExtensionsButtons();
 
@@ -429,11 +429,11 @@ final class ComposePresenter extends PagePresenter implements IPage
 		try {
 			if ($this->getAction() === 'edit')
 			{
-				$this->editPage($form->getValues());
+				$this->editPage($form, $form->getValues());
 			}
 			elseif ($this->getAction() === 'default')
 			{
-				$this->createPage($form->getValues());
+				$this->createPage($form, $form->getValues());
 			}
 
 			$this->getPresenter()->flashMessage('Page was saved.', 'success');
@@ -460,7 +460,7 @@ final class ComposePresenter extends PagePresenter implements IPage
 	 *
 	 * @throws \Doctrine\ORM\ORMException
 	 */
-	public function editPage($values)
+	public function editPage(Form $form, Nette\Utils\ArrayHash $values)
 	{
 		$this->em->beginTransaction();
 

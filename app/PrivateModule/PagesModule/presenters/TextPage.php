@@ -89,7 +89,7 @@ class TextPagePresenter extends PagePresenter
 	 */
 	public function createComponentPageForm()
 	{
-		$this->form = $this->createBaseForm();
+		$this->form = $this->createBaseForm($name);
 
 		$this->form->addText('header', 'Header');
 
