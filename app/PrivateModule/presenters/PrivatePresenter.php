@@ -84,6 +84,14 @@ class PrivatePresenter extends \App\Presenters\SecuredPresenter
 	}
 
 	/**
+	 * @return \WebLoader\Nette\JavaScriptLoader
+	 */
+	public function createComponentJs()
+	{
+		return $this->webloaderLoaderFactory->createJavaScriptLoader('private');
+	}
+
+	/**
 	 * Finds layout template file name.
 	 * @return string
 	 * @internal

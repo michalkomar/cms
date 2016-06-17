@@ -71,21 +71,22 @@ monolog:
 webloader:
 	css:
 		public:
+			remoteFiles:
+				- https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css
 			files:
-				- bootstrap.min.css
 				- main.css
 		private:
+			remoteFiles:
+				- https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css
 			files:
-				- ../PrivateModule/css/bootstrap.min.css
-				- ../PrivateModule/fonts/css/font-awesome.min.css
-				- ../PrivateModule/css/animate.min.css
-				- ../PrivateModule/css/custom.css
-				- ../PrivateModule/css/switchery/switchery.min.css
-				- ../PrivateModule/css/icheck/flat/green.css
-				- ../PrivateModule/css/kendo/kendo.common-bootstrap.css
-				- ../PrivateModule/css/kendo/kendo.common-bootstrap.core.css
-				- ../PrivateModule/css/kendo/kendo.bootstrap.css
-
+				- %wwwDir%/PrivateModule/css/animate.min.css
+				- %wwwDir%/PrivateModule/css/custom.css
+				- %wwwDir%/PrivateModule/css/switchery/switchery.min.css
+				- %wwwDir%/PrivateModule/css/icheck/flat/green.css
+				- %wwwDir%/PrivateModule/css/kendo/kendo.common-bootstrap.css
+				- %wwwDir%/PrivateModule/css/kendo/kendo.common-bootstrap.core.css
+				- %wwwDir%/PrivateModule/css/kendo/kendo.bootstrap.css
 	js:
-		public:
-			files:
+		private:
+			remoteFiles:
+				- https://use.fontawesome.com/5268f58514.js

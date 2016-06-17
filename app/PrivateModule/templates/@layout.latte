@@ -13,21 +13,22 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<base href="{$basePath}/">
 
 	<title>CMS</title>
 
 	{control css}
 
-	<script src="{$basePath}/PrivateModule/js/jquery.min.js"></script>
-	<script src="{$basePath}/PrivateModule/js/nprogress.js"></script>
-	<script src="{$basePath}/PrivateModule/js/nette.ajax.js"></script>
+	<script src="PrivateModule/js/jquery.min.js"></script>
+	<script src="PrivateModule/js/nprogress.js"></script>
+	<script src="PrivateModule/js/nette.ajax.js"></script>
 	<script>
 		NProgress.start();
 	</script>
 
-	<script src="{$basePath}/PrivateModule/js/kendo/kendo.all.min.js"></script>
+	<script src="PrivateModule/js/kendo/kendo.all.min.js"></script>
 	<!--[if lt IE 9]>
-	<script src="{$basePath}/PrivateModule/js/ie8-responsive-file-warning.js"></script>
+	<script src="PrivateModule/js/ie8-responsive-file-warning.js"></script>
 	<![endif]-->
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -131,31 +132,31 @@
 		<div id="notif-group" class="tabbed_notifications"></div>
 	</div>
 
-	<script src="{$basePath}/PrivateModule/js/bootstrap.min.js"></script>
+	<script src="PrivateModule/js/bootstrap.min.js"></script>
 
-	<script src="{$basePath}/PrivateModule/js/switchery/switchery.min.js"></script>
+	<script src="PrivateModule/js/switchery/switchery.min.js"></script>
 
 	<!-- chart js -->
-	<script src="{$basePath}/PrivateModule/js/chartjs/chart.min.js"></script>
+	<script src="PrivateModule/js/chartjs/chart.min.js"></script>
 	<!-- bootstrap progress js -->
-	<script src="{$basePath}/PrivateModule/js/progressbar/bootstrap-progressbar.min.js"></script>
-	<script src="{$basePath}/PrivateModule/js/nicescroll/jquery.nicescroll.min.js"></script>
+	<script src="PrivateModule/js/progressbar/bootstrap-progressbar.min.js"></script>
+	<script src="PrivateModule/js/nicescroll/jquery.nicescroll.min.js"></script>
 	<!-- icheck -->
-	<script src="{$basePath}/PrivateModule/js/icheck/icheck.min.js"></script>
+	<script src="PrivateModule/js/icheck/icheck.min.js"></script>
 
-	<script src="{$basePath}/PrivateModule/js/custom.js"></script>
+	<script src="PrivateModule/js/custom.js"></script>
 
 	<!-- flot js -->
 	<!--[if lte IE 8]><script type="text/javascript" src="js/excanvas.min.js"></script><![endif]-->
-	<script type="text/javascript" src="{$basePath}/PrivateModule/js/flot/jquery.flot.js"></script>
-	<script type="text/javascript" src="{$basePath}/PrivateModule/js/flot/jquery.flot.pie.js"></script>
-	<script type="text/javascript" src="{$basePath}/PrivateModule/js/flot/jquery.flot.orderBars.js"></script>
-	<script type="text/javascript" src="{$basePath}/PrivateModule/js/flot/jquery.flot.time.min.js"></script>
-	<script type="text/javascript" src="{$basePath}/PrivateModule/js/flot/date.js"></script>
-	<script type="text/javascript" src="{$basePath}/PrivateModule/js/flot/jquery.flot.spline.js"></script>
-	<script type="text/javascript" src="{$basePath}/PrivateModule/js/flot/jquery.flot.stack.js"></script>
-	<script type="text/javascript" src="{$basePath}/PrivateModule/js/flot/curvedLines.js"></script>
-	<script type="text/javascript" src="{$basePath}/PrivateModule/js/flot/jquery.flot.resize.js"></script>
+	<script type="text/javascript" src="PrivateModule/js/flot/jquery.flot.js"></script>
+	<script type="text/javascript" src="PrivateModule/js/flot/jquery.flot.pie.js"></script>
+	<script type="text/javascript" src="PrivateModule/js/flot/jquery.flot.orderBars.js"></script>
+	<script type="text/javascript" src="PrivateModule/js/flot/jquery.flot.time.min.js"></script>
+	<script type="text/javascript" src="PrivateModule/js/flot/date.js"></script>
+	<script type="text/javascript" src="PrivateModule/js/flot/jquery.flot.spline.js"></script>
+	<script type="text/javascript" src="PrivateModule/js/flot/jquery.flot.stack.js"></script>
+	<script type="text/javascript" src="PrivateModule/js/flot/curvedLines.js"></script>
+	<script type="text/javascript" src="PrivateModule/js/flot/jquery.flot.resize.js"></script>
 	<script>
 		$(document).ready(function () {
 			// [17, 74, 6, 39, 20, 85, 7]
@@ -220,7 +221,7 @@
 	</script>
 
 	<!-- skycons -->
-	<script src="{$basePath}/PrivateModule/js/skycons/skycons.js"></script>
+	<script src="PrivateModule/js/skycons/skycons.js"></script>
 	<script>
 		var icons = new Skycons({
 					"color": "#73879C"
@@ -237,6 +238,7 @@
 
 		icons.play();
 	</script>
+	{control js}
 	<script>
 			NProgress.done();
 	</script>
