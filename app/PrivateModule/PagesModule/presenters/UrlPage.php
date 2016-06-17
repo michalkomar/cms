@@ -5,6 +5,7 @@ namespace App\PrivateModule\PagesModule\Presenter;
 use App\Entity\MenuItem;
 use Nette\Application\UI\Form;
 use Nette\Forms\Controls\SubmitButton;
+use Nette\Utils\ArrayHash;
 
 /**
  * StandardPagePresenter
@@ -130,11 +131,10 @@ class UrlPagePresenter extends PagePresenter
 
 	/**
 	 * Update current opened page
-	 * @param $values
-	 *
-	 * @throws \Doctrine\ORM\ORMException
+	 * @param Form      $form
+	 * @param ArrayHash $values
 	 */
-	public function editPage($values)
+	public function editPage(Form $form, ArrayHash $values)
 	{
 		$this->menuItem
 			->setPublished($values['published'])
@@ -149,12 +149,10 @@ class UrlPagePresenter extends PagePresenter
 
 	/**
 	 * Create new page
-	 * @param $values
-	 *
-	 * @throws \Doctrine\ORM\ORMException
-	 * @throws \Nette\Utils\JsonException
+	 * @param Form      $form
+	 * @param ArrayHash $values
 	 */
-	public function createPage($values)
+	public function createPage(Form $form, ArrayHash $values)
 	{
 		$this->menuItem = new MenuItem();
 		$this->menuItem->setName($values['name'])

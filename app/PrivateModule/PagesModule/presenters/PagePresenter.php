@@ -3,11 +3,11 @@
 namespace App\PrivateModule\PagesModule\Presenter;
 
 use App\Entity\MenuItem;
+use Nette;
 use Nette\Application\UI\Form;
 use Nette\Forms\Controls\SubmitButton;
 use Nette\InvalidArgumentException;
 use Nette\Utils\ArrayHash;
-use Nette;
 
 class PagePresenter extends \App\PrivateModule\PrivatePresenter implements IPage
 {
@@ -59,14 +59,14 @@ class PagePresenter extends \App\PrivateModule\PrivatePresenter implements IPage
 			->setDefaultValue(0);
 
 		$form->addSelect('target', 'Target', [
-			'_self' => 'In the same window',
+			'_self'  => 'In the same window',
 			'_blank' => 'In the new window'
 		])->setDefaultValue('_self');
 
 		$form->addSelect('parent', 'Have a parent page?', $this->getPages())
 			->setPrompt('Page without menu');
 
-		$form->addSubmit('save', 'Save')->onClick[] = array($this, 'savePage');
+		$form->addSubmit('save', 'Save')->onClick[] = [$this, 'savePage'];
 
 		return $form;
 	}
@@ -90,13 +90,13 @@ class PagePresenter extends \App\PrivateModule\PrivatePresenter implements IPage
 	/**
 	 * @param null|int $menuId
 	 */
-	public function renderDefault($menuId = null)
+	public function renderDefault($menuId = NULL)
 	{
 	}
 
 	public function actionDelete($id)
 	{
-		$this->menuItemRepository()->find($id)->setUrl(null)->delete();
+		$this->menuItemRepository()->find($id)->setUrl(NULL)->delete();
 		$this->em->flush();
 		$this->flashMessage('The page was deleted.', 'success');
 		$this->redirect(':Private:Dashboard:Dashboard:');
@@ -131,7 +131,7 @@ class PagePresenter extends \App\PrivateModule\PrivatePresenter implements IPage
 		$form->addSelect('menu', 'Menu', $this->getMenus())
 			->setPrompt('Select menu');
 
-		$form->addSubmit('save', 'Save')->onClick[] = array($this, 'savePage');
+		$form->addSubmit('save', 'Save')->onClick[] = [$this, 'savePage'];
 
 		$form->setDefaults($this->defaults);
 
@@ -140,35 +140,27 @@ class PagePresenter extends \App\PrivateModule\PrivatePresenter implements IPage
 
 	/**
 	 * Save page routine
-	 * @param Form $form
+	 * @param SubmitButton $button
 	 */
 	public function savePage(SubmitButton $button)
 	{
 		try {
-			if ($this->getAction() === 'edit')
-			{
-				$this->editPage($form->getValues());
-			}
-			elseif ($this->getAction() === 'default')
-			{
-				$this->createPage($form->getValues());
+			if ($this->getAction() === 'edit') {
+				$this->editPage($button->form, $button->form->getValues());
+			} elseif ($this->getAction() === 'default') {
+				$this->createPage($button->form, $button->form->getValues());
 			}
 
 			$this->getPresenter()->flashMessage('Page was saved.', 'success');
 			$this->getPresenter()->redirect('this');
-		}
-		catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e) {
-			if( $e->getSQLState() === '23000' )
-			{
-				if( \preg_match( "/for key '?([a-zA-Z]+)'?/", $e->getMessage(), $match ) )
-				{
+		} catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e) {
+			if ($e->getSQLState() === '23000') {
+				if (\preg_match("/for key '?([a-zA-Z]+)'?/", $e->getMessage(), $match)) {
 					$this->form->addError('Unique constraint failed for key "' . $match[1] . '".');
 				}
-			}
-			else
-			{
+			} else {
 				$this->logger->log($e);
-				$this->form->addError('An unexcepted error, please try later. This error was logged. '.$e->getSQLState());
+				$this->form->addError('An unexcepted error, please try later. This error was logged. ' . $e->getSQLState());
 			}
 		}
 	}
@@ -194,17 +186,12 @@ class PagePresenter extends \App\PrivateModule\PrivatePresenter implements IPage
 	 */
 	public function setMenuPosition($parent, &$menu)
 	{
-		if (is_null($parent))
-		{
-			$menu->setParent(null)->setMenu(null);
-		}
-		elseif (\preg_match( "/first-([0-9]+)/", $parent, $match ))
-		{
-			$menu->setParent(null)->setMenu($this->em->getReference('\App\Entity\Menu', (int) $match[1]));
-		}
-		else
-		{
-			$newParent = $this->menuItemRepository()->find((int) $parent);
+		if (is_null($parent)) {
+			$menu->setParent(NULL)->setMenu(NULL);
+		} elseif (\preg_match("/first-([0-9]+)/", $parent, $match)) {
+			$menu->setParent(NULL)->setMenu($this->em->getReference('\App\Entity\Menu', (int)$match[1]));
+		} else {
+			$newParent = $this->menuItemRepository()->find((int)$parent);
 			$menu->setParent($newParent)->setMenu($newParent->menu);
 		}
 	}
@@ -216,20 +203,14 @@ class PagePresenter extends \App\PrivateModule\PrivatePresenter implements IPage
 	 */
 	public function getMenuPosition(MenuItem $menuItem)
 	{
-		if (!is_null($menuItem->getMenu()))
-		{
-			if (is_null($menuItem->getParent()) or $menuItem->getDepth() === 0)
-			{
-				return 'first-'.$menuItem->getMenu()->getId();
-			}
-			elseif ($menuItem->getDepth() > 0)
-			{
+		if (!is_null($menuItem->getMenu())) {
+			if (is_null($menuItem->getParent()) or $menuItem->getDepth() === 0) {
+				return 'first-' . $menuItem->getMenu()->getId();
+			} elseif ($menuItem->getDepth() > 0) {
 				return $menuItem->getParent()->getId();
 			}
-		}
-		else
-		{
-			return null;
+		} else {
+			return NULL;
 		}
 
 		throw new InvalidArgumentException("Menu Item {$menuItem->getId()} have any error in tree setting.");
@@ -245,14 +226,11 @@ class PagePresenter extends \App\PrivateModule\PrivatePresenter implements IPage
 		/**
 		 * Adding pages with menu
 		 */
-		$menus = $this->menuRepository()->findBy(array('published' => 1), array('name' => 'ASC'));
-		foreach ($menus as $menu)
-		{
-			$pages[$menu->name]['first-'.$menu->id] = '+ Root at '.$menu->name;
-			foreach ($menu->getItems() as $item)
-			{
-				if ($item->id != $this->getParameter('id'))
-				{
+		$menus = $this->menuRepository()->findBy(['published' => 1], ['name' => 'ASC']);
+		foreach ($menus as $menu) {
+			$pages[$menu->name]['first-' . $menu->id] = '+ Root at ' . $menu->name;
+			foreach ($menu->getItems() as $item) {
+				if ($item->id != $this->getParameter('id')) {
 					$pages[$menu->name][$item->id] = str_repeat(" » ", $item->depth) . $item->name;
 				}
 			}
@@ -261,13 +239,11 @@ class PagePresenter extends \App\PrivateModule\PrivatePresenter implements IPage
 		/**
 		 * Adding pages without menu
 		 */
-		$menuItemsWithoutMenu = $this->menuItemRepository()->findBy(array('menu' => null, 'status' => 'ok'), array('lft' => 'ASC'));
-		if (count($menuItemsWithoutMenu))
-		{
-			foreach ($menuItemsWithoutMenu as $item)
-			{
-				if ($item->id != $this->getParameter('id'))
-				{
+		$menuItemsWithoutMenu = $this->menuItemRepository()->findBy(['menu' => NULL, 'status' => 'ok'],
+			['lft' => 'ASC']);
+		if (count($menuItemsWithoutMenu)) {
+			foreach ($menuItemsWithoutMenu as $item) {
+				if ($item->id != $this->getParameter('id')) {
 					$pages['Pages without menu'][$item->id] = str_repeat(" » ", $item->depth) . $item->name;
 				}
 			}
@@ -283,12 +259,10 @@ class PagePresenter extends \App\PrivateModule\PrivatePresenter implements IPage
 	{
 		$homepages = $this->menuItemRepository()->findBy(['homepage' => 1]);
 
-		if (count($homepages))
-		{
+		if (count($homepages)) {
 			foreach ($homepages as $item) {
 				$item->setHomepage(FALSE);
 			}
-
 		}
 
 		$newHomepage->setHomepage(TRUE);
