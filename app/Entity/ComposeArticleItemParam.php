@@ -34,4 +34,36 @@ class ComposeArticleItemParam extends \Kdyby\Doctrine\Entities\BaseEntity
 	 */
 	protected $composeArticleItem;
 
+	/**
+	 * @return mixed
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getName()
+	{
+		return $this->name;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getValue()
+	{
+		return $this->value;
+	}
+
+	/**
+	 * @return ComposeArticleItem
+	 */
+	public function getComposeArticleItem()
+	{
+		return $this->composeArticleItem;
+	}
+
 }

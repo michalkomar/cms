@@ -12,7 +12,6 @@ use Doctrine\ORM\Mapping\Table;
  */
 class Attachment extends \Kdyby\Doctrine\Entities\BaseEntity
 {
-
 	/**
 	 * @ORM\Id
 	 * @ORM\Column(type="integer")
@@ -86,6 +85,22 @@ class Attachment extends \Kdyby\Doctrine\Entities\BaseEntity
 	}
 
 	/**
+	 * @return mixed
+	 */
+	public function getType()
+	{
+		return $this->type;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getStatus()
+	{
+		return $this->status;
+	}
+
+	/**
 	 * ************************************* Hydration ***************************************
 	 */
 
@@ -97,8 +112,7 @@ class Attachment extends \Kdyby\Doctrine\Entities\BaseEntity
 	{
 		$result = [];
 
-		foreach ( get_object_vars($this) as $key => $value )
-		{
+		foreach (get_object_vars($this) as $key => $value) {
 			$result[$key] = $value;
 		}
 		return $result;
