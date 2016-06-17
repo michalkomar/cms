@@ -24,7 +24,7 @@
 		 *
 		 * @return mixed
 		 */
-		public function addItem(Form &$form);
+		public function addItem(Form $form);
 
 		/**
 		 * @param Form $form
@@ -32,7 +32,7 @@
 		 *
 		 * @return mixed
 		 */
-		public function editItemParams(Form &$form, $editItemParams);
+		public function editItemParams(Form $form, $editItemParams);
 
 		/**
 		 * Make magic for creating new item, e.g. save new image and return his params for save.
