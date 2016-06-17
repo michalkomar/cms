@@ -1,6 +1,7 @@
 <?php
 
 namespace App\PrivateModule\AttachmentModule\Model\Service;
+
 use App\ParametersFactory;
 use Tracy\ILogger;
 

@@ -9,6 +9,8 @@
 namespace App\PrivateModule\PagesModule\Presenter;
 
 use Nette\Forms\Controls\SubmitButton;
+use Nette;
+use Nette\Application\UI\Form;
 
 interface IPage
 {
@@ -17,9 +19,9 @@ interface IPage
 
 	public function savePage(SubmitButton $button);
 
-	public function editPage($values);
+	public function editPage(Form $form, Nette\Utils\ArrayHash $values);
 
-	public function createPage($values);
+	public function createPage(Form $form, Nette\Utils\ArrayHash $values);
 
 	/**
 	 * @return array

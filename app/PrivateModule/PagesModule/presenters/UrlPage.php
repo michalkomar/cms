@@ -72,7 +72,7 @@ class UrlPagePresenter extends PagePresenter
 	 * Creating page form
 	 * @return Form
 	 */
-	public function createComponentPageForm()
+	public function createComponentPageForm($name)
 	{
 		$this->form = $this->createBaseForm($name);
 

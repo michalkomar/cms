@@ -15,6 +15,7 @@ use \Nette\Application\UI\Multiplier;
 use Nette\Utils\Arrays;
 use Nette\Utils\Json;
 use App\PrivateModule\ComposeModule\Exception\ComposePresenterException;
+use Nette;
 
 /**
  * StandardPagePresenter
@@ -508,7 +509,7 @@ final class ComposePresenter extends PagePresenter implements IPage
 	 * @throws \Doctrine\ORM\ORMException
 	 * @throws \Nette\Utils\JsonException
 	 */
-	public function createPage($values)
+	public function createPage(Form $form, Nette\Utils\ArrayHash $values)
 	{
 		$this->em->beginTransaction();
 

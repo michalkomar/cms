@@ -1,10 +1,12 @@
 <?php
 
 namespace App\PrivateModule\PagesModule\Presenter;
+
 use App\Entity\MenuItem;
 use Nette\Application\UI\Form;
 use Nette\Forms\Controls\SubmitButton;
 use Nette\InvalidArgumentException;
+use Nette;
 
 class PagePresenter extends \App\PrivateModule\PrivatePresenter implements IPage
 {
@@ -103,9 +105,9 @@ class PagePresenter extends \App\PrivateModule\PrivatePresenter implements IPage
 	 * Creating page form
 	 * @return Form
 	 */
-	public function createComponentPageForm()
+	public function createComponentPageForm($name)
 	{
-		$form = new Form();
+		$form = new Form($this, $name);
 
 		$form->addText('name', 'Name')
 			->setRequired('Fill Page settings -> name');
@@ -173,14 +175,14 @@ class PagePresenter extends \App\PrivateModule\PrivatePresenter implements IPage
 	/**
 	 * Update current opened page
 	 */
-	public function editPage($values)
+	public function editPage(Nette\Application\UI\Form $form, Nette\Utils\ArrayHash $values)
 	{
 	}
 
 	/**
 	 * Create new page
 	 */
-	public function createPage($values)
+	public function createPage(Nette\Application\UI\Form $form, Nette\Utils\ArrayHash $values)
 	{
 	}
 
