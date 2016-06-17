@@ -75,7 +75,7 @@ final class ComposePresenter extends PagePresenter implements IPage
 	private $extensions = [];
 
 	/**
-	 * @var ComposedPageExtension
+	 * @var IExtensionService
 	 */
 	private $extensionService;
 
@@ -110,7 +110,7 @@ final class ComposePresenter extends PagePresenter implements IPage
 	public function startup()
 	{
 		parent::startup();
-		$this->getTemplate()->itemContainer = ComposedPageExtension::ITEM_CONTAINER;
+		$this->getTemplate()->itemContainer = IExtensionService::ITEM_CONTAINER;
 	}
 	
 	/**
@@ -257,10 +257,10 @@ final class ComposePresenter extends PagePresenter implements IPage
 
 		$this->registerExtensionsButtons();
 
-		if ($this->getHttpRequest()->getPost(ComposedPageExtension::ITEM_CONTAINER) && !isset($this->form[ComposedPageExtension::ITEM_CONTAINER]))
+		if ($this->getHttpRequest()->getPost(IExtensionService::ITEM_CONTAINER) && !isset($this->form[IExtensionService::ITEM_CONTAINER]))
 		{
-			$this->setService($this->getHttpRequest()->getPost(ComposedPageExtension::ITEM_CONTAINER)['type']);
-			$this->addNewItem($this->getHttpRequest()->getPost(ComposedPageExtension::ITEM_CONTAINER)['type']);
+			$this->setService($this->getHttpRequest()->getPost(IExtensionService::ITEM_CONTAINER)['type']);
+			$this->addNewItem($this->getHttpRequest()->getPost(IExtensionService::ITEM_CONTAINER)['type']);
 		}
 
 		$this->form->addText('keywords', 'Keywords');
@@ -322,7 +322,7 @@ final class ComposePresenter extends PagePresenter implements IPage
 	}
 
 	/**
-	 * @return ComposedPageExtension
+	 * @return IExtensionService
 	 */
 	private function getService()
 	{
@@ -338,13 +338,13 @@ final class ComposePresenter extends PagePresenter implements IPage
 	private function setService($serviceName)
 	{
 		/**
-		 * @var ComposedPageExtension
+		 * @var IExtensionService
 		 */
 		$this->extensionService = Arrays::get($this->extensions, $serviceName, FALSE);
 
 		if (! $this->extensionService) {
 			throw new InvalidExtensionType("Service '{$serviceName}' not found.");
-		} elseif (! $this->extensionService instanceof ComposedPageExtension) {
+		} elseif (! $this->extensionService instanceof IExtensionService) {
 			throw new InvalidExtensionType("Service '{$serviceName}' is not instance of ComposedPageExtension.");
 		}
 
@@ -353,8 +353,8 @@ final class ComposePresenter extends PagePresenter implements IPage
 
 	private function addEditItemParams()
 	{
-		if(isset($this->form[ComposedPageExtension::ITEM_CONTAINER])) {
-			unset($this->form[ComposedPageExtension::ITEM_CONTAINER]);
+		if(isset($this->form[IExtensionService::ITEM_CONTAINER])) {
+			unset($this->form[IExtensionService::ITEM_CONTAINER]);
 		}
 
 		$this->getService()->editItemParams($this->form, $this->editItem);
@@ -413,8 +413,8 @@ final class ComposePresenter extends PagePresenter implements IPage
 	 */
 	public function addNewItem($type)
 	{
-		if(isset($this->form[ComposedPageExtension::ITEM_CONTAINER])) {
-			unset($this->form[ComposedPageExtension::ITEM_CONTAINER]);
+		if(isset($this->form[IExtensionService::ITEM_CONTAINER])) {
+			unset($this->form[IExtensionService::ITEM_CONTAINER]);
 		}
 
 		$service = $this->getService();
@@ -471,7 +471,7 @@ final class ComposePresenter extends PagePresenter implements IPage
 			->setKeywords($values['keywords'])
 			->setDescription($values['description']);
 
-		if (! $container = $this->getHttpRequest()->getPost(ComposedPageExtension::ITEM_CONTAINER, false) OR Arrays::get($container, 'itemId', FALSE) === '' )
+		if (! $container = $this->getHttpRequest()->getPost(IExtensionService::ITEM_CONTAINER, false) OR Arrays::get($container, 'itemId', FALSE) === '' )
 		{
 			// 2. Create new item for page
 			$this->saveNewItem($this->composeArticle, $form, $values);
@@ -479,7 +479,7 @@ final class ComposePresenter extends PagePresenter implements IPage
 		else
 		{
 			// 3. Edit page item
-			$this->editPageItem($form, $form->getValues()[ComposedPageExtension::ITEM_CONTAINER]);
+			$this->editPageItem($form, $form->getValues()[IExtensionService::ITEM_CONTAINER]);
 		}
 
 
@@ -648,7 +648,7 @@ final class ComposePresenter extends PagePresenter implements IPage
 	 *
 	 * @return bool
 	 */
-	public function addExtensionService($extensionName, ComposedPageExtension $service)
+	public function addExtensionService($extensionName, IExtensionService $service)
 	{
 		$this->extensions[$extensionName] = $service;
 		return TRUE;

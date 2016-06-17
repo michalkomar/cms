@@ -12,7 +12,7 @@
 	use Nette\Application\UI\Form;
 	use Nette\Utils\ArrayHash;
 
-	interface ComposedPageExtension
+	interface IExtensionService
 	{
 		const ITEM_CONTAINER = 'item';
 
