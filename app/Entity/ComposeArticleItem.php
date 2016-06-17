@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
@@ -33,6 +34,7 @@ class ComposeArticleItem extends \Kdyby\Doctrine\Entities\BaseEntity
 
 	/**
 	 * @ORM\OneToMany(targetEntity="ComposeArticleItemParam", mappedBy="composeArticleItem")
+	 * @var PersistentCollection
 	 */
 	protected $params;
 
@@ -78,11 +80,11 @@ class ComposeArticleItem extends \Kdyby\Doctrine\Entities\BaseEntity
 	}
 
 	/**
-	 * @return ComposeArticleItemParam[]|ArrayCollection
+	 * @return ComposeArticleItemParam[]
 	 */
 	public function getParams()
 	{
-		return $this->params;
+		return $this->params->toArray();
 	}
 
 	/**
