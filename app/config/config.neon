@@ -90,3 +90,5 @@ webloader:
 		private:
 			remoteFiles:
 				- https://use.fontawesome.com/5268f58514.js
+		public:
+				files:
