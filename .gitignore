@@ -3,7 +3,6 @@ vendor/*
 !vendor/other
 .idea
 nbproject/*
-www/attachments
 www/stories
 www/webtemp
 

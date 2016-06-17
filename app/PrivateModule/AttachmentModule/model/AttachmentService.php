@@ -39,13 +39,7 @@ class AttachmentService extends \Nette\Object
 		$this->httpRequest = $httpRequest;
 		$this->logger = $logger;
 
-		$attachmentDir = $config->get('attachmentsDir');
-
-		if (!is_dir($attachmentDir)) {
-			mkdir($attachmentDir, 0777, TRUE);
-		}
-
-		$this->attachmentDir = realpath($attachmentDir);
+		$this->attachmentDir = realpath($config->get('attachmentsDir'));
 	}
 
 	/**
