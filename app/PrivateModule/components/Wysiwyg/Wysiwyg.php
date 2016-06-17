@@ -1,7 +1,7 @@
 <?php
 
 namespace App\PrivateModule\Component;
-use App\PrivateModule\AttachmentModule\Model\Service\Attachment;
+use App\PrivateModule\AttachmentModule\Model\Service\AttachmentService;
 
 /**
  * Menu
@@ -13,11 +13,17 @@ class Wysiwyg extends \Nette\Application\UI\Control
 	private $em;
 
 	/**
-	 * @type Attachment
+	 * @type AttachmentService
 	 */
 	private $attachmentService;
 
-	public function __construct(\Doctrine\ORM\EntityManager $em, Attachment $attachmentService)
+	/**
+	 * Wysiwyg constructor.
+	 *
+	 * @param \Doctrine\ORM\EntityManager $em
+	 * @param AttachmentService $attachmentService
+	 */
+	public function __construct(\Doctrine\ORM\EntityManager $em, AttachmentService $attachmentService)
 	{
 		$this->em = $em;
 		$this->attachmentService = $attachmentService;

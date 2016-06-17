@@ -16,7 +16,7 @@ How to run project
 Dependencies
 ============
 
-+ PHP >= 5.4
++ PHP >= 5.6
 + MySQL
 + Composer
 + Nginx | Apache 2
