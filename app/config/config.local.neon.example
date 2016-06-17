@@ -1,6 +1,6 @@
 parameters:
 	sentry:
-		dsn: ''
+		dsn: 'https://<key>:<secret>@app.getsentry.com/<project>'
 		settings:
 			trace: true
 	https: true
@@ -18,9 +18,9 @@ parameters:
 	googleAnalytics:
 
 doctrine:
-	host: ''
-	user:
+	host: 'localhost'
+	user: root
 	password:
-	dbname: ''
+	dbname: 'wun_cms'
 	metadata:
 		App: %appDir%
